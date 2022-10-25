@@ -2,6 +2,6 @@ package models;
 
 public enum State
 {
-    ROCK, PLANT, WITHER, PLOWED, DEFAULT
+    ROCK, PLANT, WITHERED, PLOWED, DEFAULT
 }
 
