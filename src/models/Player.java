@@ -45,9 +45,21 @@ public class Player {
         // Checks if player has leveled up or not
         if (this.exp >= 100 && this.level != 1)
             leveledUp = true;
-        else if (this.exp >= 201 && this.level != 2)
+        else if (this.exp >= 200 && this.level != 2)
+            leveledUp = true;
+        else if (this.exp >= 300 && this.level != 3)
+            leveledUp = true;
+        else if (this.exp >= 400 && this.level != 4)
             leveledUp = true;
         else if (this.exp >= 500 && this.level != 5)
+            leveledUp = true;
+        else if (this.exp >= 600 && this.level != 6)
+            leveledUp = true;
+        else if (this.exp >= 700 && this.level != 7)
+            leveledUp = true;
+        else if (this.exp >= 800 && this.level != 8)
+            leveledUp = true;
+        else if (this.exp >= 900 && this.level != 9)
             leveledUp = true;
         else if (this.exp == 1000 && this.level != 10)
             leveledUp = true;
