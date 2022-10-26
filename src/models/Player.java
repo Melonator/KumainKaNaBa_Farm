@@ -35,11 +35,24 @@ public class Player {
      * @returns whether the player leveled up or not.
      */
     public boolean addExp(float num) {
+        boolean leveledUp = false;
+
         if (this.exp + num > 1000)
-            return false;
+            this.exp = 1000;
+        else
+            this.exp += num;
+
+        // Checks if player has leveled up or not
+        if (this.exp >= 100 && this.level != 1)
+            leveledUp = true;
+        else if (this.exp >= 201 && this.level != 2)
+            leveledUp = true;
+        else if (this.exp >= 500 && this.level != 5)
+            leveledUp = true;
+        else if (this.exp == 1000 && this.level != 10)
+            leveledUp = true;
         
-        this.exp += num;
-        return true;
+        return leveledUp;
     }
 
     /**
