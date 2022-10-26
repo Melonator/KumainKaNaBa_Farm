@@ -38,8 +38,6 @@ public class Tile {
     public void setPlant(Plant plant) {
         this.plant = plant;
         this.harvestDays = plant.getHarvestTime();
-        this.waterCount = plant.getWaterMin();
-        this.fertCount = plant.getFertMin();
         this.state = State.PLANT;
     }
 
