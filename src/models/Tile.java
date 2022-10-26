@@ -7,13 +7,15 @@ public class Tile {
     private int fertCount;
     private State state;
 
-    public Tile()
-    {
-
+    public Tile() {
+        //this.plant = ;
+        this.harvestDays = 0;
+        this.waterCount = 0;
+        this.fertCount = 0;
+        this.state = State.DEFAULT;
     }
 
-    public Plant getPlant()
-    {
+    public Plant getPlant() {
         return this.plant;
     }
 
@@ -21,8 +23,7 @@ public class Tile {
         return this.harvestDays;
     }
 
-    public int getWaterCount()
-    {
+    public int getWaterCount() {
         return this.waterCount;
     }
 
@@ -30,33 +31,30 @@ public class Tile {
         return this.fertCount;
     }
 
-    public State getState()
-    {
+    public State getState() {
         return this.state;
     }
 
-    public void setPlant(Plant plant)
-    {
-
+    public void setPlant(Plant plant) {
+        this.plant = plant;
+        this.harvestDays = plant.getHarvestTime();
+        this.state = State.PLANT;
     }
 
-    public void decHarvestDays()
-    {
+    public void decHarvestDays() {
+        this.harvestDays--;
     }
 
     public void incWaterCount()
     {
-
+        this.waterCount++;
     }
 
-    public void incFertCount()
-    {
-
+    public void incFertCount() {
+        this.fertCount++;
     }
 
-    public void setState(State state)
-    {
-
-
+    public void setState(State state) {
+        this.state = state;
     }
 }
