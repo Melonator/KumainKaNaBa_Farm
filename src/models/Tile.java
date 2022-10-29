@@ -8,7 +8,6 @@ public class Tile {
     private State state;
 
     public Tile() {
-        //this.plant = ;
         this.harvestDays = 0;
         this.waterCount = 0;
         this.fertCount = 0;
@@ -35,26 +34,41 @@ public class Tile {
         return this.state;
     }
 
-    public void setPlant(Plant plant) {
+    public boolean setPlant(Plant plant) {
+        if(this.state != state.PLOWED)
+            return false;
+
         this.plant = plant;
         this.harvestDays = plant.getHarvestTime();
         this.state = State.PLANT;
+        return true;
     }
 
     public void decHarvestDays() {
         this.harvestDays--;
     }
 
-    public void incWaterCount()
+    public void addWaterCount()
     {
-        this.waterCount++;
+        if(this.waterCount < plant.getWaterMax())
+            this.waterCount++;
     }
 
-    public void incFertCount() {
-        this.fertCount++;
+    public void addFertCount() {
+        if(this.fertCount < plant.getFertMax())
+            this.fertCount++;
     }
 
     public void setState(State state) {
         this.state = state;
     }
+
+    public void resetWaterCount() {
+        this.waterCount = 0;
+    }
+
+    public void resetFertCount() {
+        this.fertCount = 0;
+    }
+
 }
