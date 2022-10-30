@@ -9,7 +9,8 @@ public class Game{
 
     public Game()
     {
-
+        //TODO: Initialize all properties
+        //TODO: Initialize all 8 Plants for the masterlist
     }
 
     public static void advanceDay()
