@@ -13,8 +13,18 @@ public class Tool {
      *
      * @returns whether the planting was successful or not. Player's money is a factor in this case
      */
-    public boolean plantSeed(Player player, Tile tile, Tile[] tiles, Plant plant)
+    public boolean plantSeed(Player player, Tile tile, Tile[][] tiles, Plant plant)
     {
+        if(!tile.setPlant(plant))
+            return false;
+        if(!player.decCoins(plant.getStorePrice() - player.getType().getSeedDiscount()))
+            return false;
+
+        //Check if the plant is a tree, then check adjacent tiles if occupied
+        //Return false if at least one is occupied
+        //Return false if the tree is planted on the edge of the farm
+
+        tile.setState(State.PLANT);
         return true;
     }
 
@@ -25,20 +35,24 @@ public class Tool {
      */
     public boolean harvest(Player player, Tile tile)
     {
-        if(tile.getState() != State.PLANT)
+        if(tile.getState() != State.PLANT && (tile.getWaterCount() < tile.getPlant().getWaterMin()
+                || tile.getFertCount() < tile.getPlant().getFertMin()) && tile.getHarvestDays() != 0)
             return false;
 
         tile.setState(State.DEFAULT);
         Plant p = tile.getPlant();
         FarmerType f = player.getType();
-        int produce = new Random().nextInt((p.getMinProduce() - p.getMaxProduce()) + 1) + p.getMinProduce();
+        int produce = new Random().nextInt(p.getMaxProduce() - p.getMinProduce() + 1) + p.getMinProduce();
         int harvestTotal = produce * (p.getRetail() + f.getBonusProduce());
         float waterBonus = harvestTotal * 0.2f * (tile.getWaterCount() - 1);
         float fertBonus = harvestTotal * 0.5f * tile.getFertCount();
         float finalPrice = harvestTotal + waterBonus + fertBonus;
+        if(p.getType() == "Flower")
+            finalPrice = finalPrice * 1.1f;
+
         player.incCoins(finalPrice);
 
-        return player.addExp(p.getExpYield());
+        return player.addExp(p.getExpYield() * produce);
     }
 
     /**
@@ -64,8 +78,9 @@ public class Tool {
     {
         if(tile.getState() != State.PLANT)
             return false;
+        if(!tile.addWaterCount(player.getType().getWaterBonus()))
+            return false;
 
-        tile.addWaterCount();
         return player.addExp(0.5f);
     }
 
@@ -76,10 +91,13 @@ public class Tool {
      */
     public boolean fertilize(Player player, Tile tile)
     {
-        if(tile.getState() != State.PLANT || !player.decCoins(10))
+        if(tile.getState() != State.PLANT)
+            return false;
+        if(!player.decCoins(10))
+            return false;
+        if(!tile.addFertCount(player.getType().getFertBonus()))
             return false;
 
-        tile.addFertCount();
         return player.addExp(4.0f);
     }
 
@@ -93,7 +111,6 @@ public class Tool {
         if(!player.decCoins(7))
             return false;
 
-        //TODO: Clarify whether if a plowed tile(without a plant) will revert to default
         if(tile.getState() != State.ROCK)
             tile.setState(State.DEFAULT);
 
@@ -109,7 +126,9 @@ public class Tool {
      */
     public boolean pickaxe(Player player, Tile tile)
     {
-        if(tile.getState() != State.ROCK || !player.decCoins(50))
+        if(tile.getState() != State.ROCK)
+            return false;
+        if(!player.decCoins(10))
             return false;
 
         tile.setState(State.DEFAULT);
