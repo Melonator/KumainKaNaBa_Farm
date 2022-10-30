@@ -16,7 +16,7 @@ public class Plant {
 
     public Plant(String name, String type, int harvestTime,
             int waterMin, int waterMax, int fertMin, int fertMax, int minProduce,
-            int maxProduce, int storePrice, int retail, int expYield)
+            int maxProduce, int storePrice, int retail, float expYield)
     {
         this.name = name;
         this.type = type;
