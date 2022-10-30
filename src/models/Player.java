@@ -1,19 +1,19 @@
 package models;
 
 public class Player {
-    private int coins;
+    private float coins;
     private float exp;
     private int level;
     private FarmerType type;
 
     public Player() {
-        this.coins = 0;
+        this.coins = 100;
         this.exp = 0;
         this.level = 0;
-        //this.type = 
+        this.type = new FarmerType("Farmer", 0, 0, 0, 0);
     }
 
-    public int getCoins() {
+    public float getCoins() {
         return this.coins;
     }
 
@@ -78,7 +78,7 @@ public class Player {
         return true;
     }
 
-    public void incCoins(int num) {
+    public void incCoins(float num) {
         this.coins += num;
     }
 

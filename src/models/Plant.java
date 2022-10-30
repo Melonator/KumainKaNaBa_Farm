@@ -8,13 +8,14 @@ public class Plant {
     private final int waterMax;
     private final int fertMin;
     private final int fertMax;
+    private final int minProduce;
     private final int maxProduce;
     private final int storePrice;
     private final int retail;
     private final float expYield;
 
     public Plant(String name, String type, int harvestTime,
-            int waterMin, int waterMax, int fertMin, int fertMax,
+            int waterMin, int waterMax, int fertMin, int fertMax, int minProduce,
             int maxProduce, int storePrice, int retail, int expYield)
     {
         this.name = name;
@@ -24,6 +25,7 @@ public class Plant {
         this.waterMax = waterMax;
         this.fertMin = fertMin;
         this.fertMax = fertMax;
+        this.minProduce = minProduce;
         this.maxProduce = maxProduce;
         this.storePrice = storePrice;
         this.retail = retail;
@@ -60,6 +62,9 @@ public class Plant {
         return this.fertMax;
     }
 
+    public int getMinProduce(){
+        return this.minProduce;
+    }
     public int getMaxProduce() {
         return this.maxProduce;
     }
