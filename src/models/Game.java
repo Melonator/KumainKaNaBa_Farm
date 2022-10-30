@@ -1,9 +1,10 @@
-import java.util.Queue;
-import models.*;
+package models;
 
-public class Game{
+import java.util.Queue;
+
+public class Game {
     private Queue<FarmerType> registerQueue;
-    private Tile[][] tiles;
+    private Tile tile;
     private Plant[] plantMasterList;
     private Player player;
 
@@ -13,7 +14,7 @@ public class Game{
         //TODO: Initialize all 8 Plants for the masterlist
     }
 
-    public static void advanceDay()
+    public void advanceDay()
     {
 
     }
@@ -27,7 +28,13 @@ public class Game{
         return true;
     }
 
-    public static void main(String[] args) {
-
+    /**
+     *
+     * @return whether the player stopped the game (e.g. have a choice to stop the current game)
+     */
+    public boolean run()
+    {
+        return true;
     }
+
 }
