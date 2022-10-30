@@ -13,7 +13,7 @@ public class Tool {
      *
      * @returns whether the planting was successful or not. Player's money is a factor in this case
      */
-    public boolean plantSeed(Player player, Tile tile, Tile[][] tiles, Plant plant)
+    public boolean plantSeed(Player player, Tile tile, Plant plant)
     {
         if(!tile.setPlant(plant))
             return false;
