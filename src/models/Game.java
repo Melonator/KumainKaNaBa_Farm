@@ -64,7 +64,6 @@ public class Game {
         int choice = scanner.nextInt();
 
         tool.plantSeed(player, tile, plantMasterList[choice-1]);
-        scanner.close();
     }
 
     /**
