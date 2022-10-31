@@ -3,6 +3,8 @@ package models;
 import java.util.Queue;
 import java.util.Scanner;
 
+import javax.lang.model.util.ElementScanner6;
+
 public class Game {
     private Queue<FarmerType> registerQueue;
     private Tile tile;
@@ -68,10 +70,7 @@ public class Game {
             int input = scanner.nextInt();
 
             switch (input) {
-                case 1:
-                    tool.plow(player, tile);
-                    System.out.println("[You have successfully plowed the tile!]");
-                    break;
+                case 1:tool.plow(player, tile); break;
                 case 2:
                     System.out.println("What would you like to plant?");
                     for (int i = 0; i < plantMasterList.length; i++) {
@@ -80,39 +79,13 @@ public class Game {
                     System.out.print("Offer Input >> ");
                     int choice = scanner.nextInt();
 
-                    if (tool.plantSeed(player, tile, plantMasterList[choice-1])) {
-                        System.out.println("[You have successfully planted the " + plantMasterList[choice-1].getName() + "!]");
-                    } else {
-                        System.out.println("[You do not have enough coins to plant the seed!]"); // subject to change
-                    }
+                    tool.plantSeed(player, tile, plantMasterList[choice-1]);
                     break;
-                case 3:
-                    if (tool.water(player, tile))
-                        System.out.println("[You have successfully watered the tile!]");
-                    else
-                        System.out.println("[You cannot water the tile!]"); // subject to change
-                    break;
-                case 4:
-                    if (tool.fertilize(player, tile))
-                        System.out.println("[You have successfully fertilized the tile!]");
-                    else
-                        System.out.println("[You cannot fertilize the tile!]"); // subject to change
-                    break;
-                case 5:
-                    if (tool.shovel(player, tile))
-                        System.out.println("[You have successfully removed the plant from the tile!]");
-                    else
-                        System.out.println("[You cannot remove the plant from the tile!]"); // subject to change
-                    break;
-                case 6:
-                    if (tool.harvest(player, tile))
-                        System.out.println("[You have successfully harvested the plant from the tile!]");
-                    else
-                        System.out.println("[You cannot harvest the plant from the tile!]"); // subject to change
-                    break;
-                case 7:
-                    advanceDay();
-                    break;
+                case 3: tool.water(player, tile); break;
+                case 4: tool.fertilize(player, tile); break;
+                case 5: tool.shovel(player, tile); break;
+                case 6: tool.harvest(player, tile); break;
+                case 7: advanceDay(); break;
             }
             // condition to end game : if no more money and growing crops(?)
             // isGameOver = true;
