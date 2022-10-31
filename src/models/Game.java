@@ -53,6 +53,20 @@ public class Game {
         return isRegistered;
     }
 
+    public void plant() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("What would you like to plant?");
+        for (int i = 0; i < plantMasterList.length; i++) {
+            System.out.println("<" + (i+1) + "> " + plantMasterList[i].getName());
+        }
+        System.out.print("Offer Input >> ");
+        int choice = scanner.nextInt();
+
+        tool.plantSeed(player, tile, plantMasterList[choice-1]);
+        scanner.close();
+    }
+
     /**
      *
      * @return whether the player stopped the game (e.g. have a choice to stop the current game)
@@ -70,17 +84,8 @@ public class Game {
             int input = scanner.nextInt();
 
             switch (input) {
-                case 1:tool.plow(player, tile); break;
-                case 2:
-                    System.out.println("What would you like to plant?");
-                    for (int i = 0; i < plantMasterList.length; i++) {
-                        System.out.println("<" + (i+1) + "> " + plantMasterList[i].getName());
-                    }
-                    System.out.print("Offer Input >> ");
-                    int choice = scanner.nextInt();
-
-                    tool.plantSeed(player, tile, plantMasterList[choice-1]);
-                    break;
+                case 1: tool.plow(player, tile); break;
+                case 2: plant(); break;
                 case 3: tool.water(player, tile); break;
                 case 4: tool.fertilize(player, tile); break;
                 case 5: tool.shovel(player, tile); break;
