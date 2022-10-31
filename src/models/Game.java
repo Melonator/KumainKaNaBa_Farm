@@ -74,7 +74,7 @@ public class Game {
                 case 2:
                     System.out.println("What would you like to plant?");
                     for (int i = 0; i < plantMasterList.length; i++) {
-                        System.out.println("<" + i+1 + "> " + plantMasterList[i].getName());
+                        System.out.println("<" + (i+1) + "> " + plantMasterList[i].getName());
                     }
                     System.out.print("Offer Input >> ");
                     int choice = scanner.nextInt();
