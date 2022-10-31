@@ -18,7 +18,8 @@ public class Game {
         //registerQueue = 
         this.player = new Player();
         this.dayCounter = 1;
-        
+        this.tool = new Tool();
+        this.tile = new Tile();
         //TODO: Initialize all 8 Plants for the masterlist
         plantMasterList = new Plant[8];
         
