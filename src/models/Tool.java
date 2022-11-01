@@ -22,19 +22,22 @@ public class Tool {
      */
     public void plantSeed(Player player, Tile tile, Plant plant)
     {
-        if(!tile.setPlant(plant)) {
-            String reason = "";
-            if(tile.getState() == State.PLANT || tile.getState() == State.ROCK)
-                reason = "is occupied!";
-            else if(tile.getState() == State.DEFAULT)
-                reason = "is not plowed!";
-            else if(tile.getState() == State.WITHERED)
-                reason = "is withered!";
+        if(player.getCoins() >= plant.getStorePrice() - player.getType().getSeedDiscount()){
+            if(!tile.setPlant(plant)) {
+                String reason = "";
+                if(tile.getState() == State.PLANT || tile.getState() == State.ROCK)
+                    reason = "is occupied!";
+                else if(tile.getState() == State.DEFAULT)
+                    reason = "is not plowed!";
+                else if(tile.getState() == State.WITHERED)
+                    reason = "is withered!";
 
-            Notification.push("[ You can't plant on this because the tile " + reason + " ]");
-            return;
+                Notification.push("[ You can't plant on this because the tile " + reason + " ]");
+                return;
+            }
         }
-        else if(!player.decCoins(plant.getStorePrice() - player.getType().getSeedDiscount())) {
+
+        if(!player.decCoins(plant.getStorePrice() - player.getType().getSeedDiscount())) {
             Notification.push("[ You can't afford this seed! ]");
             return;
         }
