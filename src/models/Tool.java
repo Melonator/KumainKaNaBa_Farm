@@ -63,11 +63,11 @@ public class Tool {
             Notification.push("[ Warning: The water requirement hasn't been met! ]");
             canHarvest = false;
         }
+        
         if(tile.getFertCount() < tile.getPlant().getFertMin()) {
             Notification.push("[ Warning: The fertilizer requirement hasn't been met! ]");
             canHarvest = false;
         }
-
 
         if(!canHarvest)
             return false;
@@ -80,6 +80,7 @@ public class Tool {
         float waterBonus = harvestTotal * 0.2f * (tile.getWaterCount() - 1);
         float fertBonus = harvestTotal * 0.5f * tile.getFertCount();
         float finalPrice = harvestTotal + waterBonus + fertBonus;
+        
         if(p.getType() == "Flower")
             finalPrice = finalPrice * 1.1f;
 
@@ -101,7 +102,6 @@ public class Tool {
             Notification.push("[ The tile is already plowed! ]");
             return false;
         }
-
         else if(tile.getState() != State.DEFAULT) {
             Notification.push("[ The tile is occupied! ]");
             return false;
@@ -123,6 +123,7 @@ public class Tool {
             Notification.push("[ There is no plant to water! ]");
             return false;
         }
+
         if(!tile.addWaterCount(player.getType().getWaterBonus())){
             Notification.push("[ The needs of this plant in terms of water is met! You continue to water it though... ]");
             return false;
@@ -192,6 +193,7 @@ public class Tool {
             Notification.push("[ There is no rock to use the pickaxe on! ]");
             return false;
         }
+
         if(!player.decCoins(10)){
             Notification.push("[ You cannot afford to use the pickaxe! ]");
             return false;
