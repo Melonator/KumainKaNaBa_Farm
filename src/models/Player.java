@@ -35,6 +35,7 @@ public class Player {
      * @returns whether the player leveled up or not.
      */
     public boolean addExp(float num) {
+        Notification.push("[ You have gained " + num + " exp! ]");
         boolean leveledUp = false;
 
         if (this.exp + num > 1000)
@@ -74,11 +75,13 @@ public class Player {
         if (this.coins - num < 0)
             return false;
 
+        Notification.push("[ You've spent " + num + " Object Coins! ]");
         this.coins -= num;
         return true;
     }
 
     public void incCoins(float num) {
+        Notification.push("[ You've gained " + num + " Object Coins! ]");
         this.coins += num;
     }
 

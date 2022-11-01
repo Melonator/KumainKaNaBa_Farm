@@ -31,8 +31,8 @@ public class Game {
         plantMasterList[3] = new Plant("Rose", "Flower", 1, 1, 2, 0, 1, 1, 0, 5, 5, 2.5f);
         plantMasterList[4] = new Plant("Tulips", "Flower", 2, 2, 3, 0, 1, 1, 0, 10, 9, 5f);
         plantMasterList[5] = new Plant("Sunflower", "Flower", 3, 2, 3, 1, 2, 1, 0, 20, 19, 7.5f);
-        plantMasterList[6] = new Plant("Mango", "Fruit Tree", 10, 7, 7, 4, 4, 5, 15, 100, 8, 25f);
-        plantMasterList[7] = new Plant("Apple", "Fruit Tree", 10, 7, 7, 5, 5, 10, 15, 200, 5, 25f);
+        plantMasterList[6] = new Plant("Mango Tree", "Fruit Tree", 10, 7, 7, 4, 4, 5, 15, 100, 8, 25f);
+        plantMasterList[7] = new Plant("Apple Tree", "Fruit Tree", 10, 7, 7, 5, 5, 10, 15, 200, 5, 25f);
     
     }
 
@@ -91,6 +91,7 @@ public class Game {
                 case 6: tool.harvest(player, tile); break;
                 case 7: advanceDay(); break;
             }
+            Notification.display();
             // condition to end game : if no more money and growing crops(?)
             // isGameOver = true;
         }
