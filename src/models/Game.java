@@ -60,6 +60,7 @@ public class Game {
                     tile.setState(State.WITHERED);
                     tile.setPlant(plantMasterList[8]);
                     // NOTIF
+                }
             }
         }
         return false;
