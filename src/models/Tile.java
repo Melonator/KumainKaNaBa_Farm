@@ -72,12 +72,12 @@ public class Tile {
         this.state = state;
     }
 
-    public void resetWaterCount() {
-        this.waterCount = 0;
-    }
-
-    public void resetFertCount() {
+    public void removePlant() {
+        this.plant = new Plant("Empty", "No Type", 0,
+                0, 0, 0, 0, 0,
+                0, 0, 0, 0);
         this.fertCount = 0;
+        this.waterCount = 0;
+        this.harvestDays = 0;
     }
-
 }

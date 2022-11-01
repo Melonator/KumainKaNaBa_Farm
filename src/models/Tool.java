@@ -84,6 +84,7 @@ public class Tool {
             finalPrice = finalPrice * 1.1f;
 
         Notification.push("[ You have successfully harvested  " + produce + " " + tile.getPlant().getName() + "! ]");
+        tile.removePlant();
         player.incCoins(finalPrice);
 
         return player.addExp(p.getExpYield() * produce);
@@ -176,8 +177,7 @@ public class Tool {
             Notification.push("[ You can't use a shovel on a rock! ]");
 
         Notification.push("[ You have successfully used the shovel! ]");
-        tile.resetFertCount();
-        tile.resetWaterCount();
+        tile.removePlant();
         return player.addExp(2);
     }
 

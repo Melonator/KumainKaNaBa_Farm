@@ -1,11 +1,10 @@
 package models;
 
 import java.util.LinkedList;
-import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class Notification {
-    private static Queue<String> notifications = new LinkedList<String>();
+    private static Queue<String> notifications = new LinkedList();
 
     public static void push(String message)
     {

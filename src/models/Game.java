@@ -1,5 +1,6 @@
 package models;
 
+import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 
@@ -15,14 +16,12 @@ public class Game {
 
     public Game()
     {
-        //TODO: Initialize all properties
-        
-        //registerQueue = 
+
+        registerQueue = new LinkedList();
         this.player = new Player();
         this.dayCounter = 1;
         this.tool = new Tool();
         this.tile = new Tile();
-        //TODO: Initialize all 8 Plants for the masterlist
         plantMasterList = new Plant[8];
         
         plantMasterList[0] = new Plant("Turnip", "Root", 2, 1, 2, 0, 1, 1, 2, 5, 6, 5f);
@@ -33,13 +32,17 @@ public class Game {
         plantMasterList[5] = new Plant("Sunflower", "Flower", 3, 2, 3, 1, 2, 1, 0, 20, 19, 7.5f);
         plantMasterList[6] = new Plant("Mango Tree", "Fruit Tree", 10, 7, 7, 4, 4, 5, 15, 100, 8, 25f);
         plantMasterList[7] = new Plant("Apple Tree", "Fruit Tree", 10, 7, 7, 5, 5, 10, 15, 200, 5, 25f);
-    
     }
 
+    /**
+     *
+     * @return whether the game is over
+     */
     public boolean advanceDay()
     {
         this.dayCounter++;
-
+        //TODO: Case 1 ; water and fertilizer needs are not met ON harvest day
+        //TODO: Case 2 ; needs are met but NOT HARVESTED ON HARVEST DAY (e.g. day was advanced without harvesting)
         return false;
     }
 
@@ -81,8 +84,10 @@ public class Game {
             System.out.println("Day Counter: " + this.dayCounter);
             System.out.println("Exp: " + this.player.getExp() + " | Lvl: " + this.player.getLevel());
             System.out.println("Object Coins: " + this.player.getCoins());
+            System.out.println("Plant on tile: " + tile.getPlant().getName());
+            System.out.println("Times Watered: " + tile.getWaterCount() + " | Times Fertilized: " + tile.getFertCount() + " | Days until harvest: " + tile.getHarvestDays());
             System.out.println("\nWhat would you like to do?");
-            System.out.println("<1> Plow <2> Plant <3> Water\n<4> Fertilize <5> Shovel <6> Harvest\n<7> Advance Day <8> Stop Game");
+            System.out.println("<1> Plow   <4> Fertilize  <7> Advance Day\n<2> Plant  <5> Shovel     <8> Stop Game\n<3> Water  <6> Harvest");
             System.out.print("Offer Input >> ");
             int input = scanner.nextInt();
 
@@ -97,8 +102,7 @@ public class Game {
                 case 8: isGameOver = true;
             }
             Notification.display();
-            // condition to end game : if no more money and growing crops(?)
-            // isGameOver = true;
+            System.out.println("");
         }
         scanner.close();
     }
