@@ -38,12 +38,13 @@ public class Tile {
     }
 
     public boolean setPlant(Plant plant) {
-        if(this.state != state.PLOWED)
+        if(this.state != state.PLOWED && plant.getName() != "Withered")
             return false;
 
         this.plant = plant;
         this.harvestDays = plant.getHarvestTime();
-        this.state = State.PLANT;
+        if(plant.getName() != "Withered")
+            this.state = State.PLANT;
         return true;
     }
 
@@ -72,12 +73,12 @@ public class Tile {
         this.state = state;
     }
 
-    public void resetWaterCount() {
-        this.waterCount = 0;
-    }
-
-    public void resetFertCount() {
+    public void removePlant() {
+        this.plant = new Plant("Empty", "No Type", 0,
+                0, 0, 0, 0, 0,
+                0, 0, 0, 0);
         this.fertCount = 0;
+        this.waterCount = 0;
+        this.harvestDays = 0;
     }
-
 }
