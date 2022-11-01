@@ -13,7 +13,7 @@ public class Tool {
      *
      * @returns whether the planting was successful or not. Player's money is a factor in this case
      */
-    public boolean plantSeed(Player player, Tile tile, Plant plant)
+    public void plantSeed(Player player, Tile tile, Plant plant)
     {
         if(!tile.setPlant(plant)) {
             String reason = "";
@@ -25,11 +25,11 @@ public class Tool {
                 reason = "is withered!";
 
             Notification.push("[ You can't plant on this because the tile " + reason + " ]");
-            return false;
+            return;
         }
         else if(!player.decCoins(plant.getStorePrice() - player.getType().getSeedDiscount())) {
             Notification.push("[ You can't afford this seed! ]");
-            return false;
+            return;
         }
 
         //Check if the plant is a tree, then check adjacent tiles if occupied
@@ -38,7 +38,6 @@ public class Tool {
 
         Notification.push("[ You have successfully planted a " + plant.getName() + "! ]");
         tile.setState(State.PLANT);
-        return true;
     }
 
     /**
@@ -50,7 +49,7 @@ public class Tool {
     {
         boolean canHarvest = true;
         if(tile.getState() != State.PLANT) {
-            Notification.push("[ There is no plant on this tile! ]");
+            Notification.push("[ There is no plant to harvest on this tile! ]");
             return false;
         }
 

@@ -38,12 +38,13 @@ public class Tile {
     }
 
     public boolean setPlant(Plant plant) {
-        if(this.state != state.PLOWED)
+        if(this.state != state.PLOWED && plant.getName() != "Withered")
             return false;
 
         this.plant = plant;
         this.harvestDays = plant.getHarvestTime();
-        this.state = State.PLANT;
+        if(plant.getName() != "Withered")
+            this.state = State.PLANT;
         return true;
     }
 
