@@ -6,6 +6,9 @@ import java.util.Scanner;
 
 import javax.lang.model.util.ElementScanner6;
 
+/**
+ * The Game class is responsible for handling the core game mechanics and the game flow.
+ */
 public class Game {
     private Queue<FarmerType> registerQueue;
     private Tile tile;
@@ -14,9 +17,11 @@ public class Game {
     private Player player;
     private int dayCounter;
 
+    /**
+     * Constructor for the Game class. Initializes the game.
+     */
     public Game()
     {
-
         registerQueue = new LinkedList();
         this.player = new Player();
         this.dayCounter = 1;
@@ -36,8 +41,9 @@ public class Game {
     }
 
     /**
-     *
-     * @return whether the game is over
+     * Checks is the if the game is over or not.
+     * 
+     * @return if the game is over or not.
      */
     public boolean advanceDay()
     {
@@ -82,8 +88,9 @@ public class Game {
     }
 
     /**
-     *
-     * @returns whether the register as successful or not
+     * Player goes through the registration process.
+     * 
+     * @return if the player successfully registered or not.
      */
     public boolean register()
     {
@@ -92,6 +99,9 @@ public class Game {
         return isRegistered;
     }
 
+    /**
+     * Player goes through the planting.
+     */
     public void plant() {
         Scanner scanner = new Scanner(System.in);
 
@@ -106,8 +116,7 @@ public class Game {
     }
 
     /**
-     *
-     * @return whether the player stopped the game (e.g. have a choice to stop the current game)
+     * Player goes through the game proper.
      */
     public void run()
     {

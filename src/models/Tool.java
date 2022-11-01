@@ -1,6 +1,10 @@
 package models;
 
 import java.util.Random;
+
+/**
+ * The Tool class is reponsible for simulating the players actions.
+ */
 public class Tool {
 
     public Tool()
@@ -8,10 +12,13 @@ public class Tool {
 
     }
 
+
     /**
-     * Aggregates a plant object to a specific tile
-     *
-     * @returns whether the planting was successful or not. Player's money is a factor in this case
+     * Plants the seed to the tile and notifies the user if successful or not (along with the reason).
+     * 
+     * @param player The player who is planting the seed.
+     * @param tile The tile that the player is trying to plant on.
+     * @param plant The plant that the player is trying to plant.
      */
     public void plantSeed(Player player, Tile tile, Plant plant)
     {
@@ -32,18 +39,17 @@ public class Tool {
             return;
         }
 
-        //Check if the plant is a tree, then check adjacent tiles if occupied
-        //Return false if at least one is occupied
-        //Return false if the tree is planted on the edge of the farm
-
         Notification.push("[ You have successfully planted a " + plant.getName() + "! ]");
         tile.setState(State.PLANT);
     }
 
+
     /**
-     * Harvests the plant in a specific tile
-     *
-     * @returns whether the player leveled up or not
+     * Harvests the plant from the tile and notifies the user if successful or not (along with the reason).
+     * 
+     * @param player The player who is harvesting the tile.
+     * @param tile   The tile that the player is trying to harvest on.
+     * @return true if the player leveled up, false otherwise.
      */
     public boolean harvest(Player player, Tile tile)
     {
@@ -90,10 +96,12 @@ public class Tool {
         return player.addExp(p.getExpYield() * produce);
     }
 
+
     /**
-     * Plow's a specific tile, making it available to plant
-     *
-     * @returns whether the player leveled up or not
+     * Plows the tile and notifies the user if successful or not (along with the reason).
+     * @param player The player who is plowing the tile.
+     * @param tile   The tile that the player is trying to plow on.
+     * @return true if the player leveled up, false otherwise.
      */
     public boolean plow(Player player, Tile tile)
     {
@@ -112,9 +120,10 @@ public class Tool {
     }
 
     /**
-     * Adds waterCount to a tile
-     *
-     * @returns whether the player leveld up or not
+     * Waters the tile and notifies the user if successful or not (along with the reason).
+     * @param player The player who is watering the tile.
+     * @param tile   The tile that the player is trying to water on.
+     * @return true if the player leveled up, false otherwise.
      */
     public boolean water(Player player, Tile tile)
     {
@@ -133,9 +142,10 @@ public class Tool {
     }
 
     /**
-     * Adds fertilizerCount to a tile
-     *
-     * @returns whether the player leveled up or not
+     * Fertilizes the tile and notifies the user if successful or not (along with the reason).
+     * @param player The player who is fertilizing the tile.
+     * @param tile   The tile that the player is trying to fertilize on.
+     * @return true if the player leveled up, false otherwise.
      */
     public boolean fertilize(Player player, Tile tile)
     {
@@ -160,9 +170,10 @@ public class Tool {
     }
 
     /**
-     * Removes the plant in a certain tile (Withered or existing)
-     *
-     * @returns whether the player leveled up or not
+     * Shovels the tile and notifies the user if successful or not (along with the reason).
+     * @param player The player who is shoveling the tile.
+     * @param tile   The tile that the player is trying to shovel on.
+     * @return true if the player leveled up, false otherwise.
      */
     public boolean shovel(Player player, Tile tile)
     {
@@ -182,9 +193,10 @@ public class Tool {
     }
 
     /**
-     * Removes the rock in a certain tile
-     *
-     * @returns whether the player leveled up or not
+     * Removes a rock from the tile and notifies the user if successful or not (along with the reason).
+     * @param player The player who is removing the rock.
+     * @param tile   The tile that the player is trying to remove the rock on.
+     * @return true if the player leveled up, false otherwise.
      */
     public boolean pickaxe(Player player, Tile tile)
     {
