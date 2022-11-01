@@ -1,5 +1,8 @@
 package models;
 
+/**
+ * The Plant class is responsible for holding the plant's data. All of its attributes are final.
+ */
 public class Plant {
     private final String name;
     private final String type;
