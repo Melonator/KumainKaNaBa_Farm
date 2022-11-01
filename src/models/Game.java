@@ -70,7 +70,7 @@ public class Game {
      *
      * @return whether the player stopped the game (e.g. have a choice to stop the current game)
      */
-    public boolean run()
+    public void run()
     {
         Scanner scanner = new Scanner(System.in);
         boolean isGameOver = false;
@@ -96,7 +96,6 @@ public class Game {
             // isGameOver = true;
         }
         scanner.close();
-        return isGameOver;
     }
 
 }
