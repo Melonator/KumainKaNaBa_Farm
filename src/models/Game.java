@@ -36,10 +36,11 @@ public class Game {
     
     }
 
-    public void advanceDay()
+    public boolean advanceDay()
     {
-        dayCounter++;
+        this.dayCounter++;
 
+        return false;
     }
 
     /**
@@ -74,22 +75,26 @@ public class Game {
     {
         Scanner scanner = new Scanner(System.in);
         boolean isGameOver = false;
+        boolean leveledUp = false;
         
         while (!isGameOver) {
-            System.out.println("Day Counter: " + dayCounter);
+            System.out.println("Day Counter: " + this.dayCounter);
+            System.out.println("Exp: " + this.player.getExp() + " | Lvl: " + this.player.getLevel());
+            System.out.println("Object Coins: " + this.player.getCoins());
             System.out.println("\nWhat would you like to do?");
-            System.out.println("<1> Plow\n<2> Plant\n<3> Water\n<4> Fertilize\n<5> Shovel\n<6> Harvest\n<7> Advance Day");
+            System.out.println("<1> Plow <2> Plant <3> Water\n<4> Fertilize <5> Shovel <6> Harvest\n<7> Advance Day <8> Stop Game");
             System.out.print("Offer Input >> ");
             int input = scanner.nextInt();
 
             switch (input) {
-                case 1: tool.plow(player, tile); break;
+                case 1: leveledUp = tool.plow(this.player, this.tile); break;
                 case 2: plant(); break;
-                case 3: tool.water(player, tile); break;
-                case 4: tool.fertilize(player, tile); break;
-                case 5: tool.shovel(player, tile); break;
-                case 6: tool.harvest(player, tile); break;
-                case 7: advanceDay(); break;
+                case 3: leveledUp = tool.water(this.player, this.tile); break;
+                case 4: leveledUp = tool.fertilize(this.player, this.tile); break;
+                case 5: leveledUp = tool.shovel(this.player, this.tile); break;
+                case 6: leveledUp = tool.harvest(this.player, this.tile); break;
+                case 7: isGameOver = advanceDay(); break;
+                case 8: isGameOver = true;
             }
             Notification.display();
             // condition to end game : if no more money and growing crops(?)
