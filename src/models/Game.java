@@ -22,13 +22,16 @@ public class Game {
      */
     public Game()
     {
+        //Initialize all the classes' members
+        //registerQueue is a LinkedList for FIFO
         registerQueue = new LinkedList();
         this.player = new Player();
         this.dayCounter = 1;
         this.tool = new Tool();
         this.tile = new Tile();
         plantMasterList = new Plant[9];
-        
+
+        //Create all 8 plants (The Withered being the 9th)
         plantMasterList[0] = new Plant("Turnip", "Root", 2, 1, 2, 0, 1, 1, 2, 5, 6, 5f);
         plantMasterList[1] = new Plant("Carrot", "Root", 3, 1, 2, 0, 1, 1, 2, 10, 9, 7.5f);
         plantMasterList[2] = new Plant("Potato", "Root", 5, 3, 4, 1, 2, 1, 10, 20, 3, 12.5f);
@@ -49,21 +52,26 @@ public class Game {
     {
         this.dayCounter++;
 
+        //Decrease the harvest days if a plant is present
         if (tile.getState() == State.PLANT) {
-            if (tile.getHarvestDays() > -1) {
+            //Decrease the harvest days if it's not withered
+            if (tile.getState() != State.WITHERED) {
                 tile.decHarvestDays();
 
+                //Wither the plant if wasn't harvested on harvest day
                 if (tile.getHarvestDays() == -1) {
                     Notification.push("[ Your " + tile.getPlant().getName() + " has withered! ]");
                     tile.removePlant();
                     tile.setState(State.WITHERED);
                     tile.setPlant(plantMasterList[8]);
                 }
-            } 
+            }
+            //Logic for harvest day
             if (tile.getHarvestDays() == 0) {
                 if (tile.getWaterCount() >= tile.getPlant().getWaterMin() && tile.getFertCount() >= tile.getPlant().getFertMin()) {
                     Notification.push("[ Your " + tile.getPlant().getName() + " is ready for harvest! ]");
                 }
+                //Plant will wither if needs are not met on harvest day
                 else {
                     Notification.push("[ Your " + tile.getPlant().getName() + " has withered! ]");
                     tile.removePlant();
@@ -73,11 +81,14 @@ public class Game {
             }
         }
 
+        //Logic for game over
+        //12 coins is the minimum to continue with a withered plant (Shovel and turnip)
         if(tile.getState() == State.WITHERED && player.getCoins() < 12)
         {
             Notification.push("[ You no longer have any money to continue the game... ]");
             return true;
         }
+        //5 coins is the minimum with no growing plants
         else if(tile.getState() == State.DEFAULT && player.getCoins() < 5)
         {
             Notification.push("[ You no longer have any money to continue the game... ]");
@@ -88,23 +99,25 @@ public class Game {
     }
 
     /**
-     * Player goes through the registration process.
+     * Prompt and logic for the registration process.
      * 
      * @return if the player successfully registered or not.
      */
     public boolean register()
     {
+        //Skeleton code for registering the player in future implementations
         boolean isRegistered = false;
 
         return isRegistered;
     }
 
     /**
-     * Player goes through the planting.
+     * Prompts the user to plant.
      */
     public void plant() {
         Scanner scanner = new Scanner(System.in);
 
+        //Display plants
         System.out.println("What would you like to plant?");
         for (int i = 0; i < plantMasterList.length - 1; i++) {
             System.out.println("<" + (i+1) + "> " + plantMasterList[i].getName() + ": " + plantMasterList[i].getStorePrice() + " oc");
@@ -112,19 +125,24 @@ public class Game {
         System.out.print("Offer Input >> ");
         int choice = scanner.nextInt();
 
+        //Attempt in planting the seed
         tool.plantSeed(player, tile, plantMasterList[choice-1]);
     }
 
     /**
-     * Player goes through the game proper.
+     * Runs the game.
      */
     public void run()
     {
         Scanner scanner = new Scanner(System.in);
         boolean isGameOver = false;
+        //variable to check whether the player leveled up or not
+        //Is used for registering in future implementations
         boolean leveledUp = false;
 
+        //Main game loop
         while (!isGameOver) {
+            //Print necessary information
             System.out.println("Day Counter: " + this.dayCounter);
             System.out.println("Exp: " + this.player.getExp() + " | Lvl: " + this.player.getLevel());
             System.out.println("Object Coins: " + this.player.getCoins());
@@ -139,6 +157,7 @@ public class Game {
             System.out.print("Offer Input >> ");
             int input = scanner.nextInt();
 
+            //Execute corresponding action
             switch (input) {
                 case 1: leveledUp = tool.plow(this.player, this.tile); break;
                 case 2: plant(); break;
@@ -149,6 +168,7 @@ public class Game {
                 case 7: isGameOver = advanceDay(); break;
                 case 8: isGameOver = true;
             }
+            //Display all notifications in the queue
             Notification.display();
 
             System.out.println("");

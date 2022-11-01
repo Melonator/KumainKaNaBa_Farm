@@ -72,13 +72,17 @@ public class Tile {
      * Assigns a plant to the tile.
      * 
      * @param plant The plant to assign to the tile.
+     * @return true if the plant was assigned to the tile, false otherwise
      */
     public boolean setPlant(Plant plant) {
+        //Do not assign if the tile is not plowed
+        //A special withered plant can be assigned if the plant withers
         if(this.state != state.PLOWED && plant.getName() != "Withered")
             return false;
 
         this.plant = plant;
         this.harvestDays = plant.getHarvestTime();
+        //Do not set the state to plant if the plant withered
         if(plant.getName() != "Withered")
             this.state = State.PLANT;
         return true;
@@ -100,6 +104,7 @@ public class Tile {
      */
     public boolean addWaterCount(int bonus)
     {
+        //Do not add to the watercount if the max needs is met
         if(this.waterCount == this.plant.getWaterMax() + bonus)
             return false;
 
@@ -114,6 +119,7 @@ public class Tile {
      * @return true if the tile was fertilized, false otherwise.
      */
     public boolean addFertCount(int bonus ) {
+        //Do not add to the fertcount if the max needs is met
         if(this.fertCount == this.plant.getFertMax() + bonus)
             return false;
 

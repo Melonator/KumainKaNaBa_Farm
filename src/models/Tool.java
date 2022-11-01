@@ -22,6 +22,7 @@ public class Tool {
      */
     public void plantSeed(Player player, Tile tile, Plant plant)
     {
+        //Only attempt planting if the player can afford it
         if(player.getCoins() >= plant.getStorePrice() - player.getType().getSeedDiscount()){
             if(!tile.setPlant(plant)) {
                 String reason = "";
@@ -37,6 +38,7 @@ public class Tool {
             }
         }
 
+        //Decrease the coins if the player can afford it, notify if not
         if(!player.decCoins(plant.getStorePrice() - player.getType().getSeedDiscount())) {
             Notification.push("[ You can't afford this seed! ]");
             return;
@@ -56,6 +58,7 @@ public class Tool {
      */
     public boolean harvest(Player player, Tile tile)
     {
+        //Logic for notifications and if the plant can be harvested
         boolean canHarvest = true;
         if(tile.getState() != State.PLANT) {
             Notification.push("[ There is no plant to harvest on this tile! ]");
@@ -81,6 +84,8 @@ public class Tool {
             return false;
 
         tile.setState(State.DEFAULT);
+
+        //Calculate the final price
         Plant p = tile.getPlant();
         FarmerType f = player.getType();
         int produce = new Random().nextInt(p.getMaxProduce() - p.getMinProduce() + 1) + p.getMinProduce();
@@ -88,7 +93,6 @@ public class Tool {
         float waterBonus = harvestTotal * 0.2f * (tile.getWaterCount() - 1);
         float fertBonus = harvestTotal * 0.5f * tile.getFertCount();
         float finalPrice = harvestTotal + waterBonus + fertBonus;
-        
         if(p.getType() == "Flower")
             finalPrice = finalPrice * 1.1f;
 
@@ -108,6 +112,7 @@ public class Tool {
      */
     public boolean plow(Player player, Tile tile)
     {
+        //Logic for notifications and check if it can be plowed
         if(tile.getState() == State.PLOWED) {
             Notification.push("[ The tile is already plowed! ]");
             return false;
@@ -130,6 +135,7 @@ public class Tool {
      */
     public boolean water(Player player, Tile tile)
     {
+        //Logic for checking if it can be watered
         if(tile.getState() != State.PLANT){
             Notification.push("[ There is no plant to water! ]");
             return false;
@@ -152,6 +158,7 @@ public class Tool {
      */
     public boolean fertilize(Player player, Tile tile)
     {
+        //Logic for checking if it can be fertilized
         if(tile.getState() != State.PLANT){
             Notification.push("[ There is no plant to fertilize! ]");
             return false;
@@ -180,11 +187,13 @@ public class Tool {
      */
     public boolean shovel(Player player, Tile tile)
     {
+        //Do not shovel if the player cannot afford it
         if(!player.decCoins(7)){
             Notification.push("[ You cannot afford to use the shovel! ]");
             return false;
         }
 
+        //A shovel cannot be used on a rock
         if(tile.getState() != State.ROCK)
             tile.setState(State.DEFAULT);
         else
@@ -203,6 +212,7 @@ public class Tool {
      */
     public boolean pickaxe(Player player, Tile tile)
     {
+        //Logic to check if the pickaxe can be used
         if(tile.getState() != State.ROCK){
             Notification.push("[ There is no rock to use the pickaxe on! ]");
             return false;

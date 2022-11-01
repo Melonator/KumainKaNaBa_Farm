@@ -66,6 +66,7 @@ public class Player {
         Notification.push("[ You have gained " + num + " exp! ]");
         boolean leveledUp = false;
 
+        //Avoids exp overflow for max level
         if (this.exp + num > 1000)
             this.exp = 1000;
         else
@@ -104,6 +105,7 @@ public class Player {
      * @return true if the object coins has been deducted, false otherwise.
      */
     public boolean decCoins(int num) {
+        //Do not decrease the coins if the player cannot afford the spending
         if (this.coins - num < 0)
             return false;
 
