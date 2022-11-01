@@ -22,7 +22,7 @@ public class Game {
         this.dayCounter = 1;
         this.tool = new Tool();
         this.tile = new Tile();
-        plantMasterList = new Plant[8];
+        plantMasterList = new Plant[9];
         
         plantMasterList[0] = new Plant("Turnip", "Root", 2, 1, 2, 0, 1, 1, 2, 5, 6, 5f);
         plantMasterList[1] = new Plant("Carrot", "Root", 3, 1, 2, 0, 1, 1, 2, 10, 9, 7.5f);
@@ -32,6 +32,7 @@ public class Game {
         plantMasterList[5] = new Plant("Sunflower", "Flower", 3, 2, 3, 1, 2, 1, 0, 20, 19, 7.5f);
         plantMasterList[6] = new Plant("Mango Tree", "Fruit Tree", 10, 7, 7, 4, 4, 5, 15, 100, 8, 25f);
         plantMasterList[7] = new Plant("Apple Tree", "Fruit Tree", 10, 7, 7, 5, 5, 10, 15, 200, 5, 25f);
+        plantMasterList[8] = new Plant("Withered", "No Type", -1, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     }
 
     /**
@@ -41,8 +42,26 @@ public class Game {
     public boolean advanceDay()
     {
         this.dayCounter++;
-        //TODO: Case 1 ; water and fertilizer needs are not met ON harvest day
-        //TODO: Case 2 ; needs are met but NOT HARVESTED ON HARVEST DAY (e.g. day was advanced without harvesting)
+
+        if (tile.getState() == State.PLANT) {
+            if (tile.getHarvestDays() > -1) {
+                tile.decHarvestDays();
+
+                if (tile.getHarvestDays() == -1) {
+                    tile.setState(State.WITHERED);
+                    tile.setPlant(plantMasterList[8]);
+                }
+            } 
+            else if (tile.getHarvestDays() == -0) {
+                if (tile.getWaterCount() == tile.getPlant().getWaterMin() && tile.getFertCount() == tile.getPlant().getFertMin()) {
+                    // NOTIF - READY FOR HARVEST
+                } 
+                else {
+                    tile.setState(State.WITHERED);
+                    tile.setPlant(plantMasterList[8]);
+                    // NOTIF
+            }
+        }
         return false;
     }
 
