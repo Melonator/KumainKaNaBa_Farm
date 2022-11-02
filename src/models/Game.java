@@ -48,7 +48,7 @@ public class Game {
      * 
      * @return if the game is over or not.
      */
-    public boolean advanceDay()
+    private boolean advanceDay()
     {
         this.dayCounter++;
 
@@ -103,7 +103,7 @@ public class Game {
      * 
      * @return if the player successfully registered or not.
      */
-    public boolean register()
+    private boolean register()
     {
         //Skeleton code for registering the player in future implementations
         boolean isRegistered = false;
@@ -114,7 +114,7 @@ public class Game {
     /**
      * Prompts the user to plant.
      */
-    public void plant() {
+    private void plant() {
         Scanner scanner = new Scanner(System.in);
 
         //Display plants
