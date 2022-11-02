@@ -5,10 +5,10 @@ package models;
  */
 public class FarmerType {
     private String name;
-    private int waterBonus;
-    private int fertBonus;
-    private int seedDiscount;
-    private int bonusProduce;
+    private final int waterBonus;
+    private final int fertBonus;
+    private final int seedDiscount;
+    private final int bonusProduce;
 
     /**
      * Constructor for FarmerType. Initializes the farmer type.
