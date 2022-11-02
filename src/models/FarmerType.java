@@ -4,7 +4,7 @@ package models;
  * The FarmerType class is reponsible to store the farmer type and bonuses of the player.
  */
 public class FarmerType {
-    private String name;
+    private final String name;
     private final int waterBonus;
     private final int fertBonus;
     private final int seedDiscount;
