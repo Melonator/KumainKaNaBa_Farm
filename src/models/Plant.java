@@ -128,8 +128,8 @@ public class Plant {
     }
 
     /**
-     * Returns the expected yield of the plant.
-     * @return the expected yield of the plant.
+     * Returns the experience yield of the plant.
+     * @return the experience yield of the plant.
      */
     public float getExpYield() {
         return this.expYield;
