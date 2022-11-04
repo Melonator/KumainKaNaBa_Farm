@@ -44,7 +44,7 @@ public class Game {
     }
 
     /**
-     * Checks is the if the game is over or not.
+     * Checks is if the game is over or not.
      * 
      * @return if the game is over or not.
      */
@@ -82,10 +82,9 @@ public class Game {
         }
 
         //Logic for game over
-        //12 coins is the minimum to continue with a withered plant (Shovel and turnip)
-        if(tile.getState() == State.WITHERED && player.getCoins() < 12)
+        if(tile.getState() == State.WITHERED)
         {
-            Notification.push("[ You no longer have any money to continue the game... ]");
+            Notification.push("[ All your tiles have withered... ]");
             return true;
         }
         //5 coins is the minimum with no growing plants
