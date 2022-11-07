@@ -84,7 +84,7 @@ public class Game {
         //Logic for game over
         if(tile.getState() == State.WITHERED)
         {
-            Notification.push("[ All your tiles have withered... ]");
+            Notification.push("[ All your plants have withered... ]");
             return true;
         }
         //5 coins is the minimum with no growing plants
