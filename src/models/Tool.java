@@ -100,7 +100,7 @@ public class Tool {
         tile.removePlant();
         player.incCoins(finalPrice);
 
-        return player.addExp(p.getExpYield() * produce);
+        return player.addExp(p.getExpYield());
     }
 
 
