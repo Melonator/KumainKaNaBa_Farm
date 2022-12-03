@@ -30,19 +30,59 @@ public class PlayerModel {
     }
 
     public boolean addExp(float amount) {
-        return true;
+        boolean leveledUp = false;
+
+        //Avoids exp overflow for max level
+        if (player.getExp() + amount > 1000)
+            player.setExp(1000);
+        else {
+            float currentExp = player.getExp();
+            player.setExp(currentExp + amount);
+        }
+
+        // Checks if player has leveled up or not
+        if (player.getExp() >= 100 && player.getLevel() != 1)
+            leveledUp = true;
+        else if (player.getExp() >= 200 && player.getLevel() != 2)
+            leveledUp = true;
+        else if (player.getExp() >= 300 && player.getLevel() != 3)
+            leveledUp = true;
+        else if (player.getExp() >= 400 && player.getLevel() != 4)
+            leveledUp = true;
+        else if (player.getExp() >= 500 && player.getLevel() != 5)
+            leveledUp = true;
+        else if (player.getExp() >= 600 && player.getLevel() != 6)
+            leveledUp = true;
+        else if (player.getExp() >= 700 && player.getLevel() != 7)
+            leveledUp = true;
+        else if (player.getExp() >= 800 && player.getLevel() != 8)
+            leveledUp = true;
+        else if (player.getExp() >= 900 && player.getLevel() != 9)
+            leveledUp = true;
+        else if (player.getExp() == 1000 && player.getLevel() != 10)
+            leveledUp = true;
+
+        return leveledUp;
     }
 
     public void register(String type) {
-
+        FarmerType ft = farmerTypes.get(type);
+        float currentMoney = player.getCoins();
+        player.setCoins(currentMoney - ft.getPrice());
+        player.setType(ft);
     }
 
     public int getRegisterCost() {
-        return 0;
+        int price = 0;
+        for(FarmerType ft : this.registerQueue) {
+            price += ft.getPrice();
+        }
+
+        return price;
     }
 
     public FarmerType getRegisterable() {
-        return registerQueue.peek();
+        return this.registerQueue.element();
     }
 
     public float getPlayerCoins() {

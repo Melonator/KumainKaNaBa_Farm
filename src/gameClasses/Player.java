@@ -16,7 +16,7 @@ public class Player {
         this.coins = 100;
         this.exp = 0;
         this.level = 0;
-        this.type = new FarmerType("Farmer", 0, 0, 0, 0);
+        this.type = new FarmerType("Farmer", 0, 0, 0, 0, 0);
     }
 
     public float getCoins() {

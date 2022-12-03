@@ -5,6 +5,7 @@ import gameClasses.Plant;
 import gameClasses.State;
 import gameClasses.Tile;
 
+import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -17,8 +18,26 @@ public class FarmModel {
         this.plantMasterList = new Hashtable<>();
     }
 
-    public Tile[] getAdjacentTiles(Coordinate coord) {
-        return null;
+    public ArrayList<Tile> getAdjacentTiles(Coordinate coord) {
+        ArrayList<Tile> tiles = new ArrayList<>();
+        if(coord.x == 0 && coord.y == 0 ||
+        coord.x == 9 && coord.y == 0 ||
+        coord.x == 0 && coord.y == 9 ||
+        coord.x == 9 && coord.y == 9) {
+            return tiles;
+        }
+
+        tiles.add(this.tiles[coord.x - 1][coord.y + 1]);
+        tiles.add(this.tiles[coord.x][coord.y + 1]);
+        tiles.add(this.tiles[coord.x + 1][coord.y + 1]);
+
+        tiles.add(this.tiles[coord.x - 1][coord.y]);
+        tiles.add(this.tiles[coord.x + 1][coord.y]);
+
+        tiles.add(this.tiles[coord.x - 1][coord.y - 1]);
+        tiles.add(this.tiles[coord.x][coord.y - 1]);
+        tiles.add(this.tiles[coord.x + 1][coord.y - 1]);
+        return tiles;
     }
 
     public void setPlant(Plant plant, Coordinate coord) {
