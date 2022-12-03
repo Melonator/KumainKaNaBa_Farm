@@ -1,4 +1,4 @@
-package models;
+package gameClasses;
 
 /**
  * The FarmerType class is reponsible to store the farmer type and bonuses of the player.

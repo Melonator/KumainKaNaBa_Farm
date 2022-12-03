@@ -1,4 +1,4 @@
-package models;
+package gameClasses;
 
 /**
  * The Plant class is responsible for holding the plant's data. All of its attributes are final.
