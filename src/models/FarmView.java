@@ -1,6 +1,8 @@
 package models;
 
 import javax.swing.JFrame;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 
@@ -9,8 +11,9 @@ import java.awt.Component;
 import java.awt.Dimension;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 import javax.swing.text.html.ListView;
-import javax.swing.JButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JPanel;
@@ -28,7 +31,7 @@ public class FarmView {
         this.mainFrame.setSize(1280, 720);
         this.mainFrame.setResizable(false);
         this.mainFrame.setLayout(new BorderLayout());
-        //this.mainFrame.getContentPane().setBackground(Color.BLACK);
+        this.mainFrame.getContentPane().setBackground(Color.BLACK);
 
 
         initializeStatusBar();
@@ -39,6 +42,8 @@ public class FarmView {
 
     private void initializeStatusBar() {
         JPanel statusBar = new JPanel();
+        statusBar.add(new JLabel("  "));
+        // statusBar.setBackground(Color.BLACK);
         statusBar.setLayout(new FlowLayout(FlowLayout.LEFT));
         statusBar.setPreferredSize(new Dimension(750, 50));
         
@@ -157,7 +162,6 @@ public class FarmView {
         JPanel logsPanel = new JPanel();
         logsPanel.setPreferredSize(new Dimension(440, 670));
         logsPanel.setLayout(new BorderLayout());
-        //logsPanel.setBorder(BorderFactory.createLineBorder(Color.decode("#000000")));
 
         // Add Logs Title
         JLabel logsTitle = new JLabel("LOGS");
@@ -187,8 +191,18 @@ public class FarmView {
         chatboxPanel.setLayout(new BorderLayout());
         chatboxPanel.setBorder(BorderFactory.createLineBorder(Color.decode("#000000")));
         logsPanel.add(chatboxPanel, BorderLayout.CENTER);
+        
+        // Add Text Area with Scroll
+        JTextArea logsbox = new JTextArea();
+        logsbox.setEditable(false);
 
-        // Add Chatbox
+        JScrollPane scroll = new JScrollPane(logsbox);
+        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scroll.setPreferredSize(new Dimension(440, 670));
+        chatboxPanel.add(scroll, BorderLayout.CENTER);
+
+
+        // Add Chatbox 
         JTextField chatbox = new JTextField();
         chatbox.setFont(chatbox.getFont().deriveFont(20f));
         chatboxPanel.add(chatbox, BorderLayout.SOUTH);
