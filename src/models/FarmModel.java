@@ -72,6 +72,10 @@ public class FarmModel {
         tiles[coord.x][coord.y].setHarvestDays(0);
     }
 
+    public Dictionary<String, Plant> getPlantMasterList() {
+        return this.plantMasterList;
+    }
+
     public Plant getTilePlant(Coordinate coord) {
         return tiles[coord.x][coord.y].getPlant();
     }
