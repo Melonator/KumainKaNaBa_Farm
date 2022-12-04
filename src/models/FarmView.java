@@ -25,14 +25,14 @@ public class FarmView {
     public FarmView() {
         this.mainFrame = new JFrame("Kumain ka ba ba Farm");
         this.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.mainFrame.setLayout(new BorderLayout());
         this.mainFrame.setSize(1280, 720);
         this.mainFrame.setResizable(false);
-        this.mainFrame.getContentPane().setBackground(Color.BLACK);
+        this.mainFrame.setLayout(new BorderLayout());
+        //this.mainFrame.getContentPane().setBackground(Color.BLACK);
 
 
         initializeStatusBar();
-        initializePlantTiles();
+        initializeLeftPanel();
         initializeLogsElements();
         this.mainFrame.setVisible(true);
     }
@@ -76,41 +76,80 @@ public class FarmView {
 
     }
 
-    private void initializePlantTiles() {
-        JPanel plantBody = new JPanel();
-        plantBody.setLayout(new FlowLayout(FlowLayout.LEFT));
-        plantBody.setPreferredSize(new Dimension(830, 670));
-        JPanel[][] plantTiles = new JPanel[6][11];
+    private void initializeLeftPanel() {
+        JPanel leftPanel = new JPanel();
+        leftPanel.setLayout(new BorderLayout());
+
+        // Y-axis label
+        JPanel leftLabel = new JPanel();
+        leftLabel.setLayout(new BoxLayout(leftLabel, BoxLayout.Y_AXIS));
         int yCounter = 1;
+
+        JPanel smallMargin = new JPanel();
+        smallMargin.setPreferredSize(new Dimension(40, 20));
+        leftLabel.add(smallMargin);
+
+        for (int i = 0; i < 5; i++) {
+            JPanel yLabel = new JPanel();
+            yLabel.add(new JLabel(String.valueOf(yCounter)));
+            yLabel.setPreferredSize(new Dimension(40, 70));
+            yLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            leftLabel.add(yLabel);
+            yCounter++;
+        }
+        leftPanel.add(leftLabel, BorderLayout.WEST);
+
+        // X-axis label
+        JPanel topLabel = new JPanel();
         char xCounter = 'a';
 
-        // Initialize Tiles
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 11; j++) {
-                plantTiles[i][j] = new JPanel();
-                if (i == 0 && j == 0) {
-                    plantTiles[i][j].setPreferredSize(new Dimension(40, 30));                  
-                }
-                else if (j == 0) {
-                    plantTiles[i][j].setPreferredSize(new Dimension(40, 70));
-                    plantTiles[i][j].add(new JLabel("" + yCounter));
-                    yCounter++;
-                }
-                else if (i == 0) {
-                    plantTiles[i][j].setPreferredSize(new Dimension(70, 30));
-                    plantTiles[i][j].add(new JLabel("" + xCounter));
-                    xCounter+=1;
-                }
-                else {
-                    plantTiles[i][j].setBackground(Color.decode("#FFFFFF"));
-                    plantTiles[i][j].setPreferredSize(new Dimension(70, 70));
-                    plantTiles[i][j].setBorder(BorderFactory.createLineBorder(Color.decode("#000000")));
-                }
-                plantBody.add(plantTiles[i][j]);
-            }
+        // Add empty label
+        JPanel cornerLabel = new JPanel();
+        cornerLabel.setPreferredSize(new Dimension(30, 30));
+        topLabel.add(cornerLabel);
 
+        for (int i = 0; i < 10; i++) {
+            JPanel xLabel = new JPanel();
+            xLabel.add(new JLabel(String.valueOf(xCounter)));
+            xLabel.setPreferredSize(new Dimension(70, 30));
+            xLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            topLabel.add(xLabel);
+            xCounter++;
         }
-        this.mainFrame.add(plantBody, BorderLayout.CENTER);
+
+        // Right Corner Empty Label
+        JPanel rightCornerLabel = new JPanel();
+        rightCornerLabel.setPreferredSize(new Dimension(10, 30));
+        topLabel.add(rightCornerLabel);
+
+        leftPanel.add(topLabel, BorderLayout.NORTH);
+
+
+
+        // Add Tiles
+        JPanel plantBody = new JPanel();
+        plantBody.setLayout(new FlowLayout(FlowLayout.LEFT));
+        JPanel[][] plantTiles = new JPanel[5][10];
+
+        // Initialize Tiles
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 10; j++) {
+                plantTiles[i][j] = new JPanel();
+                plantTiles[i][j].setBackground(Color.decode("#FFFFFF"));
+                plantTiles[i][j].setPreferredSize(new Dimension(70, 70));
+                plantTiles[i][j].setBorder(BorderFactory.createLineBorder(Color.decode("#000000")));
+                plantBody.add(plantTiles[i][j], BorderLayout.CENTER);
+            }
+        }
+        leftPanel.add(plantBody, BorderLayout.CENTER);
+
+        // Add Bottom Panel
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        bottomPanel.setPreferredSize(new Dimension(0, 210));
+        leftPanel.add(bottomPanel, BorderLayout.SOUTH);
+
+        this.mainFrame.add(leftPanel);
     }
 
 
