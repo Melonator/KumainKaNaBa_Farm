@@ -2,11 +2,14 @@ package models;
 
 import javax.swing.JFrame;
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+
 import java.awt.FlowLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.text.html.ListView;
 import javax.swing.JButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,8 +28,8 @@ public class FarmView {
         this.mainFrame.setLayout(new BorderLayout());
         this.mainFrame.setSize(1280, 720);
         this.mainFrame.setResizable(false);
-        this.mainFrame.setVisible(true);
-        this.mainFrame.getContentPane().setBackground(Color.decode("#F0F0F0"));
+        this.mainFrame.getContentPane().setBackground(Color.BLACK);
+
 
         initializeStatusBar();
         initializePlantTiles();
@@ -81,7 +84,7 @@ public class FarmView {
         int yCounter = 1;
         char xCounter = 'a';
 
-        //initialize each tile
+        // Initialize Tiles
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 11; j++) {
                 plantTiles[i][j] = new JPanel();
@@ -113,15 +116,45 @@ public class FarmView {
 
     private void initializeLogsElements() {    
         JPanel logsPanel = new JPanel();
-        logsPanel.setPreferredSize(new Dimension(450, 670));
-        logsPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        logsPanel.setBorder(BorderFactory.createLineBorder(Color.decode("#000000")));
+        logsPanel.setPreferredSize(new Dimension(440, 670));
+        logsPanel.setLayout(new BorderLayout());
+        //logsPanel.setBorder(BorderFactory.createLineBorder(Color.decode("#000000")));
+
+        // Add Logs Title
+        JLabel logsTitle = new JLabel("LOGS");
+
+        logsTitle.setFont(logsTitle.getFont().deriveFont(20f));
+        logsPanel.add(logsTitle, BorderLayout.NORTH);
+
+        // Add Logs Panel
+        JPanel logs = new JPanel();
+        logs.setPreferredSize(new Dimension(50, 50));
+        logs.setBorder(BorderFactory.createLineBorder(Color.decode("#000000")));
+        logsPanel.add(logs, BorderLayout.CENTER);
+
+        // Add Right Margin
+        JPanel rightMargin = new JPanel();
+        rightMargin.setPreferredSize(new Dimension(10, 670));
+        logsPanel.add(rightMargin, BorderLayout.EAST);
+
+        // Add Bottom Margin
+        JPanel bottomMargin = new JPanel();
+        bottomMargin.setPreferredSize(new Dimension(440, 10));
+        logsPanel.add(bottomMargin, BorderLayout.SOUTH);
 
 
+        // Add Chatbox Panel
+        JPanel chatboxPanel = new JPanel();
+        chatboxPanel.setLayout(new BorderLayout());
+        chatboxPanel.setBorder(BorderFactory.createLineBorder(Color.decode("#000000")));
+        logsPanel.add(chatboxPanel, BorderLayout.CENTER);
+
+        // Add Chatbox
+        JTextField chatbox = new JTextField();
+        chatbox.setFont(chatbox.getFont().deriveFont(20f));
+        chatboxPanel.add(chatbox, BorderLayout.SOUTH);
+
+        // Add Logs Panel to MainFrame
         this.mainFrame.add(logsPanel, BorderLayout.EAST);
-
-
     }
-
-    
 }
