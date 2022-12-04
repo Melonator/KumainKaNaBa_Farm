@@ -1,4 +1,4 @@
-package models;
+package gameClasses;
 
 /**
  * The State enum represents the state of the tile.
