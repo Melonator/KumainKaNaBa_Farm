@@ -67,8 +67,7 @@ public class PlayerModel {
 
     public void register(String type) {
         FarmerType ft = farmerTypes.get(type);
-        float currentMoney = player.getCoins();
-        player.setCoins(currentMoney - ft.getPrice());
+        decreaseMoney(ft.getSeedDiscount());
         player.setType(ft);
     }
 

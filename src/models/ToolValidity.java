@@ -5,6 +5,13 @@ import gameClasses.State;
 import gameClasses.Tile;
 
 public class ToolValidity {
+    public int validatePlow(State state) {
+        if (state != State.DEFAULT)
+            return -1;
+
+        return 1;
+    }
+    
     public int validatePlant(Tile[] adjacentTiles, State state, Plant plant, float playerCoins) {
         if(playerCoins < plant.getStorePrice())
             return -1;
