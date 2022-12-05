@@ -27,7 +27,10 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
+import java.awt.Image;
 
+import javax.swing.ImageIcon;
+import java.awt.Image.*;
 
 public class FarmView {
     private JFrame mainFrame;
@@ -60,41 +63,52 @@ public class FarmView {
     private void initializeStatusBar() {
         JPanel statusBar = new JPanel();
         statusBar.add(new JLabel("  "));
-        statusBar.setBorder(BorderFactory.createEmptyBorder(10,15,10,10));
+        //statusBar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10, 10, 0, 0),BorderFactory.createLineBorder(Color.BLACK)));
+        //statusBar.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 0));
         statusBar.setBackground(Color.BLACK);
-        statusBar.setLayout(new FlowLayout(FlowLayout.LEFT));
-        statusBar.setPreferredSize(new Dimension(750, 50));
-        
+        //statusBar.setLayout(new FlowLayout(FlowLayout.LEFT));
+        statusBar.setLayout(new BoxLayout(statusBar, BoxLayout.X_AXIS));
+        statusBar.setPreferredSize(new Dimension(750, 60));
+        statusBar.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Import Sun Image Icon
+        ImageIcon sunIcon = new ImageIcon(getClass().getResource("/assets/coin-icon.png"));
+        Image sunImage = sunIcon.getImage();
+        Image newSunImage = sunImage.getScaledInstance(35, 35, Image.SCALE_SMOOTH);
+        sunIcon = new ImageIcon(newSunImage);
+    
         // Add Day Count
-        JLabel dayStatus = new JLabel("DAY: " + dayCount);
+        JLabel dayStatus = new JLabel("DAY: " + dayCount, sunIcon, SwingConstants.CENTER);
+        //dayStatus.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+        dayStatus.setIconTextGap(4);
         dayStatus.setForeground(Color.WHITE);
         dayStatus.setFont(new Font("Minecraft", Font.PLAIN, 20));
         statusBar.add(dayStatus);
         statusBar.add(new JLabel("   "));
 
         // Add Coin Status
-        JLabel coinsStatus = new JLabel("COINS: " + "0");
+        JLabel coinsStatus = new JLabel("COINS: " + "0", sunIcon, SwingConstants.CENTER);
         coinsStatus.setForeground(Color.WHITE);
         coinsStatus.setFont(new Font("Minecraft", Font.PLAIN, 20));  
         statusBar.add(coinsStatus);
         statusBar.add(new JLabel("   "));
 
         // Add Exp Status
-        JLabel expStatus = new JLabel("EXP: " + "0");
+        JLabel expStatus = new JLabel("EXP: " + "0", sunIcon, SwingConstants.CENTER);
         expStatus.setForeground(Color.WHITE);
         expStatus.setFont(new Font("Minecraft", Font.PLAIN, 20));
         statusBar.add(expStatus);
         statusBar.add(new JLabel("   "));
 
         // Add Level Status
-        JLabel levelStatus = new JLabel("LVL: " + "0");
+        JLabel levelStatus = new JLabel("LVL: " + "0", sunIcon, SwingConstants.CENTER);
         levelStatus.setForeground(Color.WHITE);
         levelStatus.setFont(new Font("Minecraft", Font.PLAIN, 20));
         statusBar.add(levelStatus);
         statusBar.add(new JLabel("   "));
 
         // Add Type Status
-        JLabel typeStatus = new JLabel("TYPE: " + "Farmer");
+        JLabel typeStatus = new JLabel("TYPE: " + "Farmer", sunIcon, SwingConstants.CENTER);
         typeStatus.setForeground(Color.WHITE);
         typeStatus.setFont(new Font("Minecraft", Font.PLAIN, 20));
         statusBar.add(typeStatus);
@@ -192,6 +206,8 @@ public class FarmView {
         bottomPanel.setBackground(Color.BLACK);
         bottomPanel.setPreferredSize(new Dimension(0, 210));
         leftPanel.add(bottomPanel, BorderLayout.SOUTH);
+
+        
 
         this.mainFrame.add(leftPanel);
     }
