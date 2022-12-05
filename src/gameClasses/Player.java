@@ -47,7 +47,7 @@ public class Player {
         return type;
     }
 
-    public void setType(FarmerType type) {
+    public void setFarmerType(FarmerType type) {
         this.type = type;
     }
 }

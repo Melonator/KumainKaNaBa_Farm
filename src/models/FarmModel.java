@@ -53,9 +53,9 @@ public class FarmModel {
        tiles[coord.x][coord.y].setPlant(plant);
     }
 
-    public void decHarvestDays(Coordinate coord) {
-        int currHarvestDays = tiles[coord.x][coord.y].getHarvestDays();
-        tiles[coord.x][coord.y].setHarvestDays(currHarvestDays - 1);
+    public void decHarvestDays(Tile tile) {
+        int currHarvestDays = tile.getHarvestDays();
+        tile.setHarvestDays(currHarvestDays - 1);
     }
 
     public void addWaterCount(int bonus, Coordinate coord) {
@@ -104,5 +104,17 @@ public class FarmModel {
 
     public State getTileState(Coordinate coord) {
         return tiles[coord.x][coord.y].getState();
+    }
+
+    public ArrayList<Tile> getActiveGrowingCrops() {
+        ArrayList<Tile> activeCrops = new ArrayList();
+        for(Tile[] tiles : this.tiles) {
+            for(Tile t : tiles) {
+                if(t.getState() == State.PLANT)
+                    activeCrops.add(t);
+            }
+        }
+
+        return activeCrops;
     }
 }

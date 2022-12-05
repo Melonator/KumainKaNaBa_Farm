@@ -11,13 +11,17 @@ public class GameController {
     private FarmModel farmModel;
     private PlayerModel playerModel;
     private ToolValidity toolValidity;
-    private Dictionary<String, Command> toolCommands = new Hashtable();
-    private Dictionary<String, Command> gameCommands = new Hashtable();
+    private Dictionary<String, Command> toolCommands;
+    private Dictionary<String, Command> gameCommands;
+    private int day;
 
     public GameController() {
         this.farmModel = new FarmModel();
         this.playerModel = new PlayerModel();
         this.toolValidity = new ToolValidity();
+        this.toolCommands = new Hashtable();
+        this.gameCommands = new Hashtable();
+        day = 0;
         initRocks();
         initCommands();
     }
@@ -241,7 +245,25 @@ public class GameController {
     }
 
     private void advanceDay(String[] commands) {
-        System.out.println("advance");
+        ArrayList<Tile> activeCrops = farmModel.getActiveGrowingCrops();
+        this.day++;
+
+        for(Tile t : activeCrops) {
+            farmModel.decHarvestDays(t);
+            if(t.getHarvestDays() == -1) {
+                t.setState(State.WITHERED);
+                t.setFertCount(0);
+                t.setWaterCount(0);
+                t.setPlant(new Plant("Withered", "None", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+            }
+        }
+
+        activeCrops = farmModel.getActiveGrowingCrops();
+        if(activeCrops.size() == 0) {
+            if(playerModel.getPlayerCoins() < 5) {
+                // Game over
+            }
+        }
     }
 
     private void inquireTile(String[] commands) {
@@ -249,6 +271,6 @@ public class GameController {
     }
 
     private void inquirePlant(String[] commands) {
-        System.out.println("inquire plant");
+
     }
 }

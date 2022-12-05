@@ -65,10 +65,10 @@ public class PlayerModel {
         return leveledUp;
     }
 
-    public void register(String type) {
+    public void setFarmerType(String type) {
         FarmerType ft = farmerTypes.get(type);
         decreaseMoney(ft.getSeedDiscount());
-        player.setType(ft);
+        player.setFarmerType(ft);
     }
 
     public int getRegisterCost() {
