@@ -16,11 +16,6 @@ import models.*;
 
 public class Main{
     public static void main(String[] args) {
-       // FarmView farmView = new FarmView();
-
-        GameController gc = new GameController();
-
-        gc.compileCommand("plant turnip 2j");
-        gc.compileCommand("harvest 2j");
+       FarmView farmView = new FarmView();
     }
 }
