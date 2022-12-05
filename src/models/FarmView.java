@@ -149,7 +149,7 @@ public class FarmView {
             JPanel xLabel = new JPanel();
             xLabel.setBackground(Color.BLACK);
             JLabel xLabelLabel = new JLabel(String.valueOf(xCounter));
-            xLabelLabel.setFont(new Font("Minecraft", Font.PLAIN, 15));
+            xLabelLabel.setFont(new Font("Minecraft", Font.PLAIN, 20));
             xLabelLabel.setForeground(Color.WHITE);
             xLabel.add(xLabelLabel);
             xLabel.setPreferredSize(new Dimension(70, 30));
