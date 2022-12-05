@@ -19,7 +19,7 @@ public class PlayerModel {
         this.farmerTypes = new Hashtable();
     }
 
-    public void increaseMoney(int amount) {
+    public void increaseMoney(float amount) {
         float currentMoney = player.getCoins();
         player.setCoins(currentMoney + amount);
     }
@@ -65,10 +65,10 @@ public class PlayerModel {
         return leveledUp;
     }
 
-    public void register(String type) {
+    public void setFarmerType(String type) {
         FarmerType ft = farmerTypes.get(type);
         decreaseMoney(ft.getSeedDiscount());
-        player.setType(ft);
+        player.setFarmerType(ft);
     }
 
     public int getRegisterCost() {
@@ -96,7 +96,7 @@ public class PlayerModel {
         return player.getLevel();
     }
 
-    public FarmerType getPlayerType() {
+    public FarmerType getPlayerFarmerType() {
         return player.getType();
     }
 }
