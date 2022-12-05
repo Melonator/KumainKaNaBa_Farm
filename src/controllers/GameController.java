@@ -212,7 +212,7 @@ public class GameController {
 
         playerModel.decreaseMoney(10);
         boolean leveledUp = playerModel.addExp(4);
-        farmModel.addWaterCount(farmerType.getWaterBonus(), coordinate);
+        farmModel.addFertCount(farmerType.getWaterBonus(), coordinate);
     }
 
     private void shovel(String[] commands) {
