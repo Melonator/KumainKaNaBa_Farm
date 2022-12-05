@@ -1,15 +1,11 @@
 package controllers;
 
-import gameClasses.Command;
-import gameClasses.FarmerType;
+import gameClasses.*;
 import models.FarmModel;
 import models.PlayerModel;
 import models.ToolValidity;
 
-import java.util.Dictionary;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Random;
+import java.util.*;
 
 public class GameController {
     private FarmModel farmModel;
@@ -123,12 +119,10 @@ public class GameController {
     }
 
     private boolean isPlant(String input) {
-        for (Enumeration<String> keyEnumeration = farmModel.getPlantMasterList().keys(); keyEnumeration.hasMoreElements();)  {
-            if(keyEnumeration.nextElement().toLowerCase().equals(input))
-                return true;
-        }
-
+        if(farmModel.getPlantFromList(input) == null)
             return false;
+
+        return true;
     }
 
     private boolean isCoordinate(String coordinate) {
@@ -145,31 +139,105 @@ public class GameController {
     }
 
     private void plant(String[] commands) {
-        System.out.println("planted");
+        Coordinate coordinate = new Coordinate(commands[2]);
+        ArrayList<Tile> adjacentTiles = farmModel.getAdjacentTiles(coordinate);
+        Plant plant = farmModel.getPlantFromList(commands[1]);
+        int errorCode = toolValidity.validatePlant(adjacentTiles.toArray(new Tile[adjacentTiles.size()]),
+                farmModel.getTileState(coordinate), plant, playerModel.getPlayerCoins());
+
+        if(errorCode != 1) {
+            return;
+        }
+
+        farmModel.setPlant(plant, coordinate);
+        farmModel.setState(State.PLANT, coordinate);
+        playerModel.decreaseMoney(plant.getStorePrice());
     }
 
     private void harvest(String[] commands) {
-        System.out.println("harvest");
+        Coordinate coordinate = new Coordinate(commands[1]);
+        Plant plant = farmModel.getTilePlant(coordinate);
+        int errorCode = toolValidity.validateHarvest(farmModel.getTileState(coordinate), farmModel.getTileHarvestDays(coordinate));
+
+        if(errorCode != 1)
+            return;
+
+        farmModel.removePlant(coordinate);
+        farmModel.setState(State.DEFAULT, coordinate);
+
+        FarmerType farmerType = playerModel.getPlayerFarmerType();
+        int produce = new Random().nextInt(plant.getMaxProduce() - plant.getMinProduce() + 1) + plant.getMinProduce();
+        int harvestTotal = produce * (plant.getRetail() + farmerType.getBonusProduce());
+        float waterBonus = harvestTotal * 0.2f * (farmModel.getTileWaterCount(coordinate) - 1);
+        float fertBonus = harvestTotal * 0.5f * farmModel.getTileFertCount(coordinate);
+        float finalPrice = harvestTotal + waterBonus + fertBonus;
+        if(plant.getType() == "Flower")
+            finalPrice = finalPrice * 1.1f;
+
+        boolean leveledUp = playerModel.addExp(plant.getExpYield());
+        playerModel.increaseMoney(finalPrice);
+
+        System.out.println(playerModel.getPlayerCoins() + " " + playerModel.getPlayerExp());
     }
 
     private void plow(String[] commands) {
-        System.out.println("plow");
+        Coordinate coordinate = new Coordinate(commands[1]);
+        int errorCode = toolValidity.validatePlow(farmModel.getTileState(coordinate));
+
+        if(errorCode != 1)
+            return;
+
+        farmModel.setState(State.PLOWED, coordinate);
+        boolean leveledUp = playerModel.addExp(0.5f);
     }
 
     private void water(String[] commands) {
-        System.out.println("water");
+        Coordinate coordinate = new Coordinate(commands[1]);
+        FarmerType farmerType = playerModel.getPlayerFarmerType();
+        int errorCode = toolValidity.validateWater(farmModel.getTileState(coordinate));
+
+        if(errorCode != 1)
+            return;
+
+        farmModel.addWaterCount(farmerType.getWaterBonus(), coordinate);
     }
 
     private void fertilize(String[] commands) {
-        System.out.println("fertilize");
+        Coordinate coordinate = new Coordinate(commands[1]);
+        FarmerType farmerType = playerModel.getPlayerFarmerType();
+        int errorCode = toolValidity.validateFert(farmModel.getTileState(coordinate), playerModel.getPlayerCoins());
+
+        if(errorCode != 1)
+            return;
+
+        playerModel.decreaseMoney(10);
+        boolean leveledUp = playerModel.addExp(4);
+        farmModel.addWaterCount(farmerType.getWaterBonus(), coordinate);
     }
 
     private void shovel(String[] commands) {
-        System.out.println("shovel");
+        Coordinate coordinate = new Coordinate(commands[1]);
+        int errorCode = toolValidity.validateShovel(farmModel.getTileState(coordinate), playerModel.getPlayerCoins());
+
+        if(errorCode != 1)
+            return;
+
+        playerModel.decreaseMoney(7);
+        boolean leveledUp = playerModel.addExp(2);
+        farmModel.removePlant(coordinate);
+        farmModel.setState(State.DEFAULT, coordinate);
     }
 
     private void pickaxe(String[] commands) {
-        System.out.println("pickaxe");
+        Coordinate coordinate = new Coordinate(commands[1]);
+        int errorCode = toolValidity.validatePick(farmModel.getTileState(coordinate), playerModel.getPlayerCoins());
+
+        if(errorCode != 1)
+            return;
+
+        playerModel.decreaseMoney(10);
+        boolean leveledUp = playerModel.addExp(15);
+        farmModel.setState(State.DEFAULT, coordinate);
     }
 
     private void advanceDay(String[] commands) {
@@ -177,7 +245,7 @@ public class GameController {
     }
 
     private void inquireTile(String[] commands) {
-        System.out.println("inquire tile");
+        Coordinate coordinate = new Coordinate(commands[1]);
     }
 
     private void inquirePlant(String[] commands) {

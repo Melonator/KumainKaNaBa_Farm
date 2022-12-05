@@ -15,7 +15,18 @@ public class FarmModel {
 
     public FarmModel() {
         this.tiles = new Tile[5][10];
+        initTiles();
         this.plantMasterList = new Hashtable<>();
+        plantMasterList.put("Turnip", new Plant("Turnip", "Root", 0, 1, 2, 0, 1, 1, 2, 5, 6, 5f));
+        plantMasterList.put("Carrot", new Plant("Carrot", "Root", 3, 1, 2, 0, 1, 1, 2, 10, 9, 7.5f));
+    }
+
+    private void initTiles() {
+        for(int i = 0; i < 5; i ++) {
+            for(int j = 0; j < 10; j++) {
+                this.tiles[i][j] = new Tile();
+            }
+        }
     }
 
     public ArrayList<Tile> getAdjacentTiles(Coordinate coord) {
@@ -70,8 +81,9 @@ public class FarmModel {
         tiles[coord.x][coord.y].setHarvestDays(0);
     }
 
-    public Dictionary<String, Plant> getPlantMasterList() {
-        return this.plantMasterList;
+    public Plant getPlantFromList(String plantName) {
+        plantName = plantName.substring(0,1).toUpperCase() + plantName.substring(1);
+        return this.plantMasterList.get(plantName);
     }
 
     public Plant getTilePlant(Coordinate coord) {
