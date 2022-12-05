@@ -20,10 +20,8 @@ public class FarmModel {
 
     public ArrayList<Tile> getAdjacentTiles(Coordinate coord) {
         ArrayList<Tile> tiles = new ArrayList<>();
-        if(coord.x == 0 && coord.y == 0 ||
-        coord.x == 9 && coord.y == 0 ||
-        coord.x == 0 && coord.y == 9 ||
-        coord.x == 9 && coord.y == 9) {
+
+        if(coord.x == 0 || coord.x == 9 || coord.y == 0 || coord.y == 4) {
             return tiles;
         }
 
