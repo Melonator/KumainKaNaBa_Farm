@@ -485,7 +485,7 @@ public class FarmView {
 
     // Test run only
     public void setImages() {
-
+        // setting all tiles to grass image
         setGrassImage();
     }
 }
