@@ -7,6 +7,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.FocusEvent;
@@ -18,6 +19,8 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
 import javax.swing.text.html.ListView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,6 +37,7 @@ import java.awt.Image.*;
 
 public class FarmView {
     private JFrame mainFrame;
+    private JPanel leftPanel = new JPanel();
     private int dayCount = 1;
     private JLabel[][] plantTiles = new JLabel[5][10];
 
@@ -45,9 +49,13 @@ public class FarmView {
         this.mainFrame.setLayout(new BorderLayout());
         this.mainFrame.getContentPane().setBackground(Color.BLACK);
 
+        // Left Panel
+        leftPanel.setLayout(new BorderLayout());
+        leftPanel.setBackground(Color.BLACK);
+
         // Import font
         try {
-            InputStream is = getClass().getResourceAsStream("/assets/Minecraft.ttf");
+            InputStream is = getClass().getResourceAsStream("/assets/fonts/Minecraft.ttf");
             Font font = Font.createFont(Font.TRUETYPE_FONT, is);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(font);
@@ -56,9 +64,13 @@ public class FarmView {
         }
 
         initializeStatusBar();
-        initializeLeftPanel();
+        initializeLabels();
+        initializeTiles();
+        initializeBottomPanel();
         initializeLogsElements();
         setImages();
+
+        this.mainFrame.add(leftPanel);
         this.mainFrame.setVisible(true);
     }
 
@@ -70,43 +82,77 @@ public class FarmView {
         statusBar.setPreferredSize(new Dimension(750, 60));
         statusBar.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        // Import Sun Image Icon
+        ImageIcon sunImport = new ImageIcon(getClass().getResource("/assets/icons/sun.png"));
+        Image sunImage = sunImport.getImage();
+        Image newSunImage = sunImage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        sunImport = new ImageIcon(newSunImage);
+
         // Import Coin Image Icon
-        ImageIcon sunIcon = new ImageIcon(getClass().getResource("/assets/coin-icon.png"));
-        Image sunImage = sunIcon.getImage();
-        Image newSunImage = sunImage.getScaledInstance(35, 35, Image.SCALE_SMOOTH);
-        sunIcon = new ImageIcon(newSunImage);
+        ImageIcon coinImport = new ImageIcon(getClass().getResource("/assets/icons/coin.png"));
+        Image coinImage = coinImport.getImage();
+        Image newCoinImage = coinImage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        coinImport = new ImageIcon(newCoinImage);
+
+        // Import EXP Image Icon
+        ImageIcon expImport = new ImageIcon(getClass().getResource("/assets/icons/exp.png"));
+        Image expImage = expImport.getImage();
+        Image newExpImage = expImage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        expImport = new ImageIcon(newExpImage);
+
+        // Import LVL Image Icon
+        ImageIcon lvlImport = new ImageIcon(getClass().getResource("/assets/icons/level.png"));
+        Image lvlImage = lvlImport.getImage();
+        Image newLvlImage = lvlImage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        lvlImport = new ImageIcon(newLvlImage);
+
+        // Import Farmer Type Icon
+        ImageIcon farmerTypeImport = new ImageIcon(getClass().getResource("/assets/icons/type.png"));
+        Image farmerTypeImage = farmerTypeImport.getImage();
+        Image newFarmerTypeImage = farmerTypeImage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        farmerTypeImport = new ImageIcon(newFarmerTypeImage);
     
         // Add Day Count
-        JLabel dayStatus = new JLabel("DAY: " + dayCount, sunIcon, SwingConstants.CENTER);
-        dayStatus.setIconTextGap(4);
+        JLabel dayIcon = new JLabel(sunImport);
+        statusBar.add(dayIcon);
+        JLabel dayStatus = new JLabel("DAY: " + dayCount);
+        dayStatus.setBorder(BorderFactory.createEmptyBorder(3, 15, 0, 15));
         dayStatus.setForeground(Color.WHITE);
         dayStatus.setFont(new Font("Minecraft", Font.PLAIN, 20));
         statusBar.add(dayStatus);
-        statusBar.add(new JLabel("     "));
 
         // Add Coin Status
-        JLabel coinsStatus = new JLabel("COINS: " + "0", sunIcon, SwingConstants.CENTER);
+        JLabel coinIcon = new JLabel(coinImport);
+        statusBar.add(coinIcon);
+        JLabel coinsStatus = new JLabel("COINS: " + "0");
+        coinsStatus.setBorder(BorderFactory.createEmptyBorder(3, 10, 0, 15));
         coinsStatus.setForeground(Color.WHITE);
         coinsStatus.setFont(new Font("Minecraft", Font.PLAIN, 20));  
         statusBar.add(coinsStatus);
-        statusBar.add(new JLabel("     "));
 
         // Add Exp Status
-        JLabel expStatus = new JLabel("EXP: " + "0", sunIcon, SwingConstants.CENTER);
+        JLabel expIcon = new JLabel(expImport);
+        statusBar.add(expIcon);
+        JLabel expStatus = new JLabel("EXP: " + "0");
+        expStatus.setBorder(BorderFactory.createEmptyBorder(3, 10, 0, 15));
         expStatus.setForeground(Color.WHITE);
         expStatus.setFont(new Font("Minecraft", Font.PLAIN, 20));
         statusBar.add(expStatus);
-        statusBar.add(new JLabel("     "));
 
         // Add Level Status
-        JLabel levelStatus = new JLabel("LVL: " + "0", sunIcon, SwingConstants.CENTER);
+        JLabel lvlIcon = new JLabel(lvlImport);
+        statusBar.add(lvlIcon);
+        JLabel levelStatus = new JLabel("LVL: " + "0");
+        levelStatus.setBorder(BorderFactory.createEmptyBorder(3, 10, 0, 15));
         levelStatus.setForeground(Color.WHITE);
         levelStatus.setFont(new Font("Minecraft", Font.PLAIN, 20));
         statusBar.add(levelStatus);
-        statusBar.add(new JLabel("    "));
 
         // Add Type Status
-        JLabel typeStatus = new JLabel("TYPE: " + "Farmer", sunIcon, SwingConstants.CENTER);
+        JLabel farmerTypeIcon = new JLabel(farmerTypeImport);
+        statusBar.add(farmerTypeIcon);
+        JLabel typeStatus = new JLabel("TYPE: " + "Farmer");
+        typeStatus.setBorder(BorderFactory.createEmptyBorder(3, 10, 0, 15));
         typeStatus.setForeground(Color.WHITE);
         typeStatus.setFont(new Font("Minecraft", Font.PLAIN, 20));
         statusBar.add(typeStatus);
@@ -116,11 +162,7 @@ public class FarmView {
 
     }
 
-    private void initializeLeftPanel() {
-        JPanel leftPanel = new JPanel();
-        leftPanel.setLayout(new BorderLayout());
-        leftPanel.setBackground(Color.BLACK);
-
+    private void initializeLabels() {
         // Y-axis label
         JPanel leftLabel = new JPanel();
         leftLabel.setBackground(Color.BLACK);
@@ -177,10 +219,146 @@ public class FarmView {
         topLabel.add(rightCornerLabel);
 
         leftPanel.add(topLabel, BorderLayout.NORTH);
+    }
+
+    private void initializeBottomPanel() {
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BorderLayout());
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
+        bottomPanel.setBackground(Color.BLACK);
+        bottomPanel.setPreferredSize(new Dimension(0, 200));
+
+        // Add Left Margin
+        JPanel leftMargin = new JPanel();
+        leftMargin.setPreferredSize(new Dimension(40, 0));
+        leftMargin.setBackground(Color.BLACK);
+        bottomPanel.add(leftMargin, BorderLayout.WEST);
 
 
+        // Add Bottom Stats bar
+        JPanel bottomStats = new JPanel();
 
-        // Add Tiles
+        bottomStats.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+        bottomStats.setBackground(Color.BLACK);
+        bottomStats.setLayout(new GridLayout(2,3, 0, 5));
+        bottomStats.setAlignmentX(Component.CENTER_ALIGNMENT);
+        bottomPanel.add(bottomStats, BorderLayout.NORTH);
+
+        // Import Water Image
+        ImageIcon waterImport = new ImageIcon(getClass().getResource("/assets/icons/water.png"));
+        Image waterImage = waterImport.getImage();
+        Image waterImageScaled = waterImage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        waterImport = new ImageIcon(waterImageScaled);
+
+        // Import Fertilizer Image
+        ImageIcon fertilizerImport = new ImageIcon(getClass().getResource("/assets/icons/fertilizer.png"));
+        Image fertilizerImage = fertilizerImport.getImage();
+        Image fertilizerImageScaled = fertilizerImage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        fertilizerImport = new ImageIcon(fertilizerImageScaled);
+
+        // Import Discount Image
+        ImageIcon discountImport = new ImageIcon(getClass().getResource("/assets/icons/discount.png"));
+        Image discountImage = discountImport.getImage();
+        Image discountImageScaled = discountImage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        discountImport = new ImageIcon(discountImageScaled);
+
+        // Import Bonus Produce Image
+        ImageIcon bonusProduceImport = new ImageIcon(getClass().getResource("/assets/icons/produce.png"));
+        Image bonusImage = bonusProduceImport.getImage();
+        Image bonusImageScaled = bonusImage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        bonusProduceImport = new ImageIcon(bonusImageScaled);
+
+        // Import Register Image
+        ImageIcon nextRegisterImport = new ImageIcon(getClass().getResource("/assets/icons/registration.png"));
+        Image registerImage = nextRegisterImport.getImage();
+        Image registerImageScaled = registerImage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        nextRegisterImport = new ImageIcon(registerImageScaled);
+
+        // Add Water Panel
+        JPanel waterPanel = new JPanel();
+        waterPanel.setBackground(Color.BLACK);
+        waterPanel.setLayout(new BoxLayout(waterPanel, BoxLayout.X_AXIS));
+        
+        // Add Water Bonus
+        JLabel waterIcon = new JLabel(waterImport);
+        waterPanel.add(waterIcon);
+        JLabel waterStatus = new JLabel("WATER BONUS: " + "0");
+        waterStatus.setBorder(BorderFactory.createEmptyBorder(3, 10, 0, 15));
+        waterStatus.setForeground(Color.WHITE);
+        waterStatus.setFont(new Font("Minecraft", Font.PLAIN, 18));
+        waterPanel.add(waterStatus);
+
+        bottomStats.add(waterPanel);
+
+        // Add Fertilizer Panel
+        JPanel fertilizerPanel = new JPanel();
+        fertilizerPanel.setBackground(Color.BLACK);
+        fertilizerPanel.setLayout(new BoxLayout(fertilizerPanel, BoxLayout.X_AXIS));
+
+        // Add Fertilizer Bonus
+        JLabel fertilizerIcon = new JLabel(fertilizerImport);
+        fertilizerPanel.add(fertilizerIcon);
+        JLabel fertilizerStatus = new JLabel("FERT. BONUS: " + "0");
+        fertilizerStatus.setBorder(BorderFactory.createEmptyBorder(3, 10, 0, 15));
+        fertilizerStatus.setForeground(Color.WHITE);
+        fertilizerStatus.setFont(new Font("Minecraft", Font.PLAIN, 18));
+        fertilizerPanel.add(fertilizerStatus);
+
+        bottomStats.add(fertilizerPanel);
+
+        // Add Discount Panel
+        JPanel discountPanel = new JPanel();
+        discountPanel.setBackground(Color.BLACK);
+        discountPanel.setLayout(new BoxLayout(discountPanel, BoxLayout.X_AXIS));
+
+        // Add Discount
+        JLabel discountIcon = new JLabel(discountImport);
+        discountPanel.add(discountIcon);
+        JLabel discountStatus = new JLabel("DISCOUNT BONUS: " + "0");
+        discountStatus.setBorder(BorderFactory.createEmptyBorder(3, 10, 0, 15));
+        discountStatus.setForeground(Color.WHITE);
+        discountStatus.setFont(new Font("Minecraft", Font.PLAIN, 18));
+        discountPanel.add(discountStatus);
+
+        bottomStats.add(discountPanel);
+
+        // Add Bonus Produce Panel
+        JPanel bonusProducePanel = new JPanel();
+        bonusProducePanel.setBackground(Color.BLACK);
+        bonusProducePanel.setLayout(new BoxLayout(bonusProducePanel, BoxLayout.X_AXIS));
+
+        // Add Bonus Produce
+        JLabel bonusProduceIcon = new JLabel(bonusProduceImport);
+        bonusProducePanel.add(bonusProduceIcon);
+        JLabel bonusProduceStatus = new JLabel("BONUS PRODUCE: " + "0");
+        bonusProduceStatus.setBorder(BorderFactory.createEmptyBorder(3, 10, 0, 15));
+        bonusProduceStatus.setForeground(Color.WHITE);
+        bonusProduceStatus.setFont(new Font("Minecraft", Font.PLAIN, 18));
+        bonusProducePanel.add(bonusProduceStatus);
+
+        bottomStats.add(bonusProducePanel);
+
+        // Add Next Register Panel
+        JPanel nextRegisterPanel = new JPanel();
+        nextRegisterPanel.setBackground(Color.BLACK);
+        nextRegisterPanel.setLayout(new BoxLayout(nextRegisterPanel, BoxLayout.X_AXIS));
+
+        // Add Next Register
+        JLabel nextRegisterIcon = new JLabel(nextRegisterImport);
+        nextRegisterPanel.add(nextRegisterIcon);
+        JLabel nextRegisterStatus = new JLabel("NEXT REGISTER: " + "0");
+        nextRegisterStatus.setBorder(BorderFactory.createEmptyBorder(3, 10, 0, 15));
+        nextRegisterStatus.setForeground(Color.WHITE);
+        nextRegisterStatus.setFont(new Font("Minecraft", Font.PLAIN, 18));
+        nextRegisterPanel.add(nextRegisterStatus);
+
+        bottomStats.add(nextRegisterPanel);
+        
+        // Add Bottom Panel
+        leftPanel.add(bottomPanel, BorderLayout.SOUTH);
+    }
+
+    private void initializeTiles() {
         JPanel plantBody = new JPanel();
         plantBody.setBackground(Color.BLACK);
         plantBody.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -191,22 +369,10 @@ public class FarmView {
                 this.plantTiles[i][j] = new JLabel();
                 this.plantTiles[i][j].setBackground(Color.decode("#000000"));
                 this.plantTiles[i][j].setPreferredSize(new Dimension(70, 70));
-                this.plantTiles[i][j].setBorder(BorderFactory.createLineBorder(Color.decode("#FFFFFF")));
                 plantBody.add(plantTiles[i][j]);
             }
         }
         leftPanel.add(plantBody, BorderLayout.CENTER);
-
-        // Add Bottom Panel
-        JPanel bottomPanel = new JPanel();
-        bottomPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        bottomPanel.setBackground(Color.BLACK);
-        bottomPanel.setPreferredSize(new Dimension(0, 200));
-        leftPanel.add(bottomPanel, BorderLayout.SOUTH);
-
-        
-
-        this.mainFrame.add(leftPanel);
     }
 
 
@@ -302,23 +468,24 @@ public class FarmView {
         this.plantTiles[x][y].add(addImage);
     }
 
+    // set grass image to all tiles using setTileImage
+    public void setGrassImage() {
+        ImageIcon grassImport = new ImageIcon("assets/icons/grass.png");
+        Image grassImage = grassImport.getImage();
+        Image newGrassImage = grassImage.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+        grassImport = new ImageIcon(newGrassImage);
+        
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 10; j++) {
+                this.setTileImage(i, j, grassImport);
+            }
+        }
+    }
+
 
     // Test run only
     public void setImages() {
-        ImageIcon coinIcon = new ImageIcon(getClass().getResource("/assets/coin-icon.png"));
-        Image coinImage = coinIcon.getImage();
-        Image newCoinImage = coinImage.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-        coinIcon = new ImageIcon(newCoinImage);
 
-        ImageIcon sunIcon = new ImageIcon(getClass().getResource("/assets/sun-icon.png"));
-        Image sunImage = sunIcon.getImage();
-        Image newSunImage = sunImage.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-        sunIcon = new ImageIcon(newSunImage);
-
-        setTileImage(2, 3, coinIcon);
-
-        setTileImage(2, 3, sunIcon);
-
-        setTileImage(1, 2, sunIcon);
+        setGrassImage();
     }
 }
