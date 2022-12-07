@@ -5,6 +5,11 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.JPanel;
+import javax.swing.ImageIcon;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -12,19 +17,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.io.IOException;
-import java.io.InputStream;
-
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingConstants;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.text.html.ListView;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -32,15 +24,21 @@ import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 
-import javax.swing.ImageIcon;
-import java.awt.Image.*;
+import java.io.IOException;
+import java.io.InputStream;
 
+/**
+ * FarmView is the class that handles the GUI of the game.
+ */
 public class FarmView {
     private JFrame mainFrame;
     private JPanel leftPanel = new JPanel();
     private int dayCount = 1;
     private JLabel[][] plantTiles = new JLabel[5][10];
 
+    /**
+     * FarmView is the constructor of the class. It initializes the main frame of the game.
+     */
     public FarmView() {
         this.mainFrame = new JFrame("Kumain ka ba ba Farm");
         this.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -63,17 +61,22 @@ public class FarmView {
             e.printStackTrace();
         }
 
+        // Initialize Elements
         initializeStatusBar();
         initializeLabels();
         initializeTiles();
         initializeBottomPanel();
         initializeLogsElements();
-        setImages();
+        setGrassImage();
 
+        // Add Panels to the main frame
         this.mainFrame.add(leftPanel);
         this.mainFrame.setVisible(true);
     }
 
+    /**
+     * initializeStatusBar initializes the status bar of the game.
+     */
     private void initializeStatusBar() {
         JPanel statusBar = new JPanel();
         statusBar.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 10));
@@ -157,23 +160,28 @@ public class FarmView {
         typeStatus.setFont(new Font("Minecraft", Font.PLAIN, 20));
         statusBar.add(typeStatus);
 
-        // add status bar to main frame
+        // Add status bar to main frame
         this.mainFrame.add(statusBar, BorderLayout.NORTH);
 
     }
 
+    /**
+     *  initializeLabels initializes the x and y-axis labels of the game.
+     */
     private void initializeLabels() {
-        // Y-axis label
+        // Y-axis label panel (1-5)
         JPanel leftLabel = new JPanel();
         leftLabel.setBackground(Color.BLACK);
         leftLabel.setLayout(new BoxLayout(leftLabel, BoxLayout.Y_AXIS));
         int yCounter = 1;
 
+        // Add margin to top of y-axis panel
         JPanel smallMargin = new JPanel();
         smallMargin.setPreferredSize(new Dimension(40, 20));
         smallMargin.setBackground(Color.BLACK);
         leftLabel.add(smallMargin);
 
+        // Add the number labels
         for (int i = 0; i < 5; i++) {
             JPanel yLabel = new JPanel();
             yLabel.setBackground(Color.BLACK);
@@ -188,17 +196,18 @@ public class FarmView {
         }
         leftPanel.add(leftLabel, BorderLayout.WEST);
 
-        // X-axis label
+        // X-axis label panel (a-j)
         JPanel topLabel = new JPanel();
         topLabel.setBackground(Color.BLACK);
         char xCounter = 'a';
 
-        // Add empty label
+        // Add empty label under x-axis
         JPanel cornerLabel = new JPanel();
         cornerLabel.setPreferredSize(new Dimension(30, 30));
         cornerLabel.setBackground(Color.BLACK);
         topLabel.add(cornerLabel);
 
+        // Add the x-axis letter labels
         for (int i = 0; i < 10; i++) {
             JPanel xLabel = new JPanel();
             xLabel.setBackground(Color.BLACK);
@@ -221,7 +230,11 @@ public class FarmView {
         leftPanel.add(topLabel, BorderLayout.NORTH);
     }
 
+    /**
+     *  initializeBottomPanel initializes the bottom panel of the game.
+     */
     private void initializeBottomPanel() {
+        // Bottom Panel
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new BorderLayout());
         bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
@@ -358,6 +371,9 @@ public class FarmView {
         leftPanel.add(bottomPanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * initializeTiles initializes the 5x10 tiles
+     */
     private void initializeTiles() {
         JPanel plantBody = new JPanel();
         plantBody.setBackground(Color.BLACK);
@@ -375,7 +391,9 @@ public class FarmView {
         leftPanel.add(plantBody, BorderLayout.CENTER);
     }
 
-
+    /**
+     * initializeLogsElements initializes the logs and command elements
+     */
     private void initializeLogsElements() {    
         JPanel logsPanel = new JPanel();
         logsPanel.setBackground(Color.BLACK);
@@ -413,7 +431,7 @@ public class FarmView {
         chatboxPanel.setLayout(new BorderLayout());
         logsPanel.add(chatboxPanel, BorderLayout.CENTER);
         
-        // Add Text Area with Scroll
+        // Add Text Field Area
         JTextArea logsbox = new JTextArea();
         logsbox.setFont(new Font("Minecraft", Font.PLAIN, 18));
         logsbox.setLineWrap(true);
@@ -422,10 +440,12 @@ public class FarmView {
         logsbox.setBackground(Color.BLACK);
         logsbox.setForeground(Color.WHITE);
 
+        // Add Welcome Message
         logsbox.append("Hello Farmer! Kumain ka na ba?\n");
         logsbox.append("Need help? Type 'help' below.\n");
         logsbox.append("----------------------------------\n");
 
+        // Add Scroll Bar
         JScrollPane scroll = new JScrollPane(logsbox);
         scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scroll.setForeground(Color.WHITE);
@@ -433,7 +453,7 @@ public class FarmView {
         chatboxPanel.add(scroll, BorderLayout.CENTER);
 
 
-        // Add Chatbox 
+        // Add TextField chatbox
         JPanel chatboxBorder = new JPanel();
         chatboxBorder.setBorder(BorderFactory.createLineBorder(Color.WHITE));
         chatboxBorder.setLayout(new BorderLayout());
@@ -468,6 +488,12 @@ public class FarmView {
         this.mainFrame.add(logsPanel, BorderLayout.EAST);
     }
 
+    /**
+     * setTileImage sets the image of a tile
+     * @param x
+     * @param y
+     * @param image
+     */
     public void setTileImage(int x, int y, ImageIcon image) {
         this.plantTiles[x][y].removeAll();
         JLabel addImage = new JLabel(image);
@@ -475,7 +501,9 @@ public class FarmView {
         this.plantTiles[x][y].add(addImage);
     }
 
-    // set grass image to all tiles using setTileImage
+    /**
+     * setGrassImage sets all tiles to grass image
+     */
     public void setGrassImage() {
         ImageIcon grassImport = new ImageIcon("assets/icons/grass.png");
         Image grassImage = grassImport.getImage();
@@ -487,12 +515,5 @@ public class FarmView {
                 this.setTileImage(i, j, grassImport);
             }
         }
-    }
-
-
-    // Test run only
-    public void setImages() {
-        // setting all tiles to grass image
-        setGrassImage();
     }
 }
