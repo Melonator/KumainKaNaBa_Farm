@@ -133,7 +133,7 @@ public class FarmView {
         // Add Exp Status
         JLabel expIcon = new JLabel(expImport);
         statusBar.add(expIcon);
-        JLabel expStatus = new JLabel("EXP: " + "0");
+        JLabel expStatus = new JLabel("EXP: " + "1000");
         expStatus.setBorder(BorderFactory.createEmptyBorder(3, 10, 0, 15));
         expStatus.setForeground(Color.WHITE);
         expStatus.setFont(new Font("Minecraft", Font.PLAIN, 20));
@@ -415,9 +415,16 @@ public class FarmView {
         
         // Add Text Area with Scroll
         JTextArea logsbox = new JTextArea();
+        logsbox.setFont(new Font("Minecraft", Font.PLAIN, 18));
+        logsbox.setLineWrap(true);
+        logsbox.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         logsbox.setEditable(false);
         logsbox.setBackground(Color.BLACK);
         logsbox.setForeground(Color.WHITE);
+
+        logsbox.append("Hello Farmer! Kumain ka na ba?\n");
+        logsbox.append("Need help? Type 'help' below.\n");
+        logsbox.append("----------------------------------\n");
 
         JScrollPane scroll = new JScrollPane(logsbox);
         scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
