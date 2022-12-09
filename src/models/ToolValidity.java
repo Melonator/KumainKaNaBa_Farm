@@ -16,7 +16,7 @@ public class ToolValidity {
         if(playerCoins < plant.getStorePrice())
             return -1;
 
-        if(state != State.DEFAULT)
+        if(state != State.PLOWED)
             return -1;
 
         if(plant.getType() == "Tree" && adjacentTiles.length != 8) {
@@ -55,7 +55,7 @@ public class ToolValidity {
         if(state != State.PLANT)
             return -1;
 
-        if(playerCoins < 100)
+        if(playerCoins < 10)
             return -1;
 
         return 1;

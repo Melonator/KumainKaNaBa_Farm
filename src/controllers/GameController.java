@@ -7,6 +7,7 @@ import models.PlayerModel;
 import models.ToolValidity;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
@@ -28,7 +29,7 @@ public class GameController {
         this.toolCommands = new Hashtable();
         this.gameCommands = new Hashtable();
         day = 0;
-        initRocks();
+        initTileImages();
         initCommands();
 
         this.farmView.setTextFieldActionListener(e -> {
@@ -36,9 +37,13 @@ public class GameController {
             String text = textField.getText();
 
             compileCommand(text);
+            textField.setText("Enter command");
+            textField.setForeground(Color.GRAY);
         });
+    }
 
-         for(int i = 0; i < 5; i++) {
+    private void initTileImages() {
+        for(int i = 0; i < 5; i++) {
             for(int j = 0; j < 10; j++) {
                 if(this.farmModel.getTileState(new Coordinate(i, j)) == State.ROCK)
                     this.farmView.setTileImage(i, j, "Rock");
@@ -46,10 +51,6 @@ public class GameController {
                     this.farmView.setTileImage(i,j, "Grass");
             }
         }
-    }
-
-    private void initRocks() {
-
     }
 
     private void initCommands() {
@@ -106,8 +107,10 @@ public class GameController {
 
         if(commandType == "tool")
             toolCommands.get(commands[0]).execCommand(commands);
-        else
+        else if(commandType == "game")
             gameCommands.get(commands[0]).execCommand(commands);
+        else if(commands[0] == "clear")
+            farmView.clearLogsBox();
     }
 
     private boolean checkCommandValidity(String[] commands) {
@@ -179,6 +182,8 @@ public class GameController {
         farmModel.setState(State.PLANT, coordinate);
         playerModel.decreaseMoney(plant.getStorePrice());
 
+        farmView.setTileImage(coordinate.x, coordinate.y, plant.getName());
+        farmView.appendLogsBoxText("You've planted a " + plant.getName() + "for " + plant.getStorePrice() + "...\n");
     }
 
     private void harvest(String[] commands) {
@@ -204,7 +209,8 @@ public class GameController {
         boolean leveledUp = playerModel.addExp(plant.getExpYield());
         playerModel.increaseMoney(finalPrice);
 
-        System.out.println(playerModel.getPlayerCoins() + " " + playerModel.getPlayerExp());
+        farmView.appendLogsBoxText("You've harvested " + harvestTotal + " " + plant.getName() + "...\n");
+        farmView.appendLogsBoxText("Total Earnings: " + finalPrice + " coins...\n");
     }
 
     private void plow(String[] commands) {
@@ -216,6 +222,9 @@ public class GameController {
 
         farmModel.setState(State.PLOWED, coordinate);
         boolean leveledUp = playerModel.addExp(0.5f);
+
+        farmView.setTileImage(coordinate.x, coordinate.y, "Plowed");
+        farmView.appendLogsBoxText("You plowed the tile...\n");
     }
 
     private void water(String[] commands) {
@@ -227,6 +236,7 @@ public class GameController {
             return;
 
         farmModel.addWaterCount(farmerType.getWaterBonus(), coordinate);
+        farmView.appendLogsBoxText("You've watered your " + farmModel.getTilePlant(coordinate).getName() + "...\n");
     }
 
     private void fertilize(String[] commands) {
@@ -240,6 +250,8 @@ public class GameController {
         playerModel.decreaseMoney(10);
         boolean leveledUp = playerModel.addExp(4);
         farmModel.addFertCount(farmerType.getWaterBonus(), coordinate);
+        farmView.appendLogsBoxText("You've fertilized your " + farmModel.getTilePlant(coordinate).getName() + " for 10 coins...\n");
+        farmView.appendLogsBoxText("+ 4 exp\n");
     }
 
     private void shovel(String[] commands) {
@@ -253,6 +265,10 @@ public class GameController {
         boolean leveledUp = playerModel.addExp(2);
         farmModel.removePlant(coordinate);
         farmModel.setState(State.DEFAULT, coordinate);
+
+        farmView.setTileImage(coordinate.x, coordinate.y, "Grass");
+        farmView.appendLogsBoxText("You used your shovel for 7 coins...\n");
+        farmView.appendLogsBoxText("+ 2 exp\n");
     }
 
     private void pickaxe(String[] commands) {
@@ -265,6 +281,10 @@ public class GameController {
         playerModel.decreaseMoney(10);
         boolean leveledUp = playerModel.addExp(15);
         farmModel.setState(State.DEFAULT, coordinate);
+
+        farmView.setTileImage(coordinate.x, coordinate.y, "Grass");
+        farmView.appendLogsBoxText("You used your pickaxe for 10 coins...\n");
+        farmView.appendLogsBoxText("+ 15 exp\n");
     }
 
     private void advanceDay(String[] commands) {
