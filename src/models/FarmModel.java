@@ -5,9 +5,8 @@ import gameClasses.Plant;
 import gameClasses.State;
 import gameClasses.Tile;
 
-import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.Hashtable;
+import java.io.File;
+import java.util.*;
 
 public class FarmModel {
     private Tile[][] tiles;
@@ -15,12 +14,52 @@ public class FarmModel {
 
     public FarmModel() {
         this.tiles = new Tile[5][10];
-        initTiles();
         this.plantMasterList = new Hashtable<>();
-        plantMasterList.put("Turnip", new Plant("Turnip", "Root", 0, 1, 2, 0, 1, 1, 2, 5, 6, 5f));
-        plantMasterList.put("Carrot", new Plant("Carrot", "Root", 3, 1, 2, 0, 1, 1, 2, 10, 9, 7.5f));
+        initTiles();
+        initPlants();
+        initRocks();
     }
 
+    private void initPlants() {
+        File file = new File("src/plants.txt");
+        Scanner input = null;
+        ArrayList<String> list = new ArrayList();
+        try {
+            input = new Scanner(file);
+        }
+        catch(Exception e) {
+            System.out.println("File not found!");
+        }
+
+        while (input.hasNextLine()) {
+            list.add(input.nextLine());
+        }
+
+        for(String s : list) {
+            String[] values = s.split(" ");
+            Plant p = createPlantFromText(values);
+            this.plantMasterList.put(p.getName(), p);
+        }
+    }
+
+    private Plant createPlantFromText(String[] values) {
+        String name = values[0];
+        String type = values[1];
+        int harvestTime = Integer.parseInt(values[2]);
+        int waterMin = Integer.parseInt(values[3]);
+        int waterMax = Integer.parseInt(values[4]);
+        int fertMin = Integer.parseInt(values[5]);
+        int fertMax = Integer.parseInt(values[6]);
+        int minProduce = Integer.parseInt(values[7]);
+        int maxProduce = Integer.parseInt(values[8]);
+        int storePrice = Integer.parseInt(values[9]);
+        int retail = Integer.parseInt(values[10]);
+        float exp = Float.parseFloat(values[11]);
+
+        return new Plant(name, type, harvestTime, waterMin, waterMax,
+                fertMin, fertMax, minProduce, maxProduce, storePrice,
+                retail, exp);
+    }
     private void initTiles() {
         for(int i = 0; i < 5; i ++) {
             for(int j = 0; j < 10; j++) {
@@ -29,6 +68,31 @@ public class FarmModel {
         }
     }
 
+    private void initRocks() {
+        File file = new File("src/rocksMap.txt");
+        Scanner input = null;
+        List<String> list = new ArrayList();
+        try {
+            input = new Scanner(file);
+        }
+        catch(Exception e) {
+            System.out.println("File not found!");
+        }
+
+        while (input.hasNextLine()) {
+            list.add(input.nextLine());
+        }
+
+        int i = 0;
+        for(String s : list) {
+            for(int j = 0; i < s.length(); i++) {
+                if(s.charAt(i) == '1') {
+                    this.tiles[i][j].setState(State.ROCK);
+                }
+            }
+            i++;
+        }
+    }
     public ArrayList<Tile> getAdjacentTiles(Coordinate coord) {
         ArrayList<Tile> tiles = new ArrayList<>();
 

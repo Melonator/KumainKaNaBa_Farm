@@ -15,6 +15,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.BorderLayout;
@@ -24,8 +25,13 @@ import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Scanner;
 
 /**
  * FarmView is the class that handles the GUI of the game.
@@ -33,19 +39,22 @@ import java.io.InputStream;
 public class FarmView {
     private JFrame mainFrame;
     private JPanel leftPanel = new JPanel();
+    private JTextField chatbox;
+    private JTextArea logsbox;
     private int dayCount = 1;
     private JLabel[][] plantTiles = new JLabel[5][10];
-
+    private Hashtable<String, ImageIcon> tileImages;
     /**
      * FarmView is the constructor of the class. It initializes the main frame of the game.
      */
     public FarmView() {
-        this.mainFrame = new JFrame("Kumain ka ba ba Farm");
+        this.mainFrame = new JFrame("Wag magpakagutom ha");
         this.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.mainFrame.setSize(1280, 720);
         this.mainFrame.setResizable(false);
         this.mainFrame.setLayout(new BorderLayout());
         this.mainFrame.getContentPane().setBackground(Color.BLACK);
+        this.tileImages = new Hashtable();
 
         // Left Panel
         leftPanel.setLayout(new BorderLayout());
@@ -64,16 +73,77 @@ public class FarmView {
         // Initialize Elements
         initializeStatusBar();
         initializeLabels();
-        initializeTiles();
+        initializeEmptyTiles();
         initializeBottomPanel();
         initializeLogsElements();
-        setGrassImage();
+
+        initializePlantImages();
+
 
         // Add Panels to the main frame
         this.mainFrame.add(leftPanel);
         this.mainFrame.setVisible(true);
+
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 10; j++) {
+                this.setTileImage(i, j, this.tileImages.get("Grass"));
+            }
+        }
     }
 
+    private ArrayList<String> getPlantNames() {
+        File file = new File("src/plants.txt");
+        Scanner input = null;
+        ArrayList<String> list = new ArrayList();
+        ArrayList<String> plantNames = new ArrayList();
+        try {
+            input = new Scanner(file);
+        }
+        catch(Exception e) {
+            System.out.println("File not found!");
+        }
+
+        while (input.hasNextLine()) {
+            list.add(input.nextLine());
+        }
+
+        for(String s : list) {
+            String[] values = s.split(" ");
+            plantNames.add(values[0]);
+        }
+
+        return plantNames;
+    }
+    private void initializePlantImages() {
+        for(String s : getPlantNames()) {
+            ImageIcon plantImport = new ImageIcon(getClass().getResource("/assets/icons/" +s+".png"));
+            Image plantImage = plantImport.getImage();
+            Image newPlantImage = plantImage.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+            plantImport = new ImageIcon(newPlantImage);
+
+            tileImages.put(s, plantImport);
+        }
+
+        ImageIcon grassImport = new ImageIcon(getClass().getResource("/assets/icons/grass.png"));
+        Image grassImage = grassImport.getImage();
+        Image newGrassImage = grassImage.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+        grassImport = new ImageIcon(newGrassImage);
+        tileImages.put("Grass", grassImport);
+
+
+        ImageIcon plowImport = new ImageIcon(getClass().getResource("/assets/icons/plowed.png"));
+        Image plowImage = plowImport.getImage();
+        Image newPlowImage = plowImage.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+        plowImport = new ImageIcon(newPlowImage);
+        tileImages.put("Plowed", plowImport);
+
+
+        ImageIcon rockImport = new ImageIcon(getClass().getResource("/assets/icons/rock.png"));
+        Image rockImage = rockImport.getImage();
+        Image newRockImage = rockImage.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+        rockImport = new ImageIcon(newRockImage);
+        tileImages.put("Rock", rockImport);
+    }
     /**
      * initializeStatusBar initializes the status bar of the game.
      */
@@ -374,7 +444,7 @@ public class FarmView {
     /**
      * initializeTiles initializes the 5x10 tiles
      */
-    private void initializeTiles() {
+    private void initializeEmptyTiles() {
         JPanel plantBody = new JPanel();
         plantBody.setBackground(Color.BLACK);
         plantBody.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -432,7 +502,7 @@ public class FarmView {
         logsPanel.add(chatboxPanel, BorderLayout.CENTER);
         
         // Add Text Field Area
-        JTextArea logsbox = new JTextArea();
+        logsbox = new JTextArea();
         logsbox.setFont(new Font("Minecraft", Font.PLAIN, 18));
         logsbox.setLineWrap(true);
         logsbox.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
@@ -457,7 +527,7 @@ public class FarmView {
         JPanel chatboxBorder = new JPanel();
         chatboxBorder.setBorder(BorderFactory.createLineBorder(Color.WHITE));
         chatboxBorder.setLayout(new BorderLayout());
-        JTextField chatbox = new JTextField("Enter command");
+        chatbox = new JTextField("Enter command");
         chatbox.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         chatbox.setBackground(Color.BLACK);
         chatbox.setForeground(Color.GRAY);
@@ -494,7 +564,7 @@ public class FarmView {
      * @param y
      * @param image
      */
-    public void setTileImage(int x, int y, ImageIcon image) {
+    private void setTileImage(int x, int y, ImageIcon image) {
         this.plantTiles[x][y].removeAll();
         JLabel addImage = new JLabel(image);
         addImage.setSize(70,70);
@@ -504,16 +574,21 @@ public class FarmView {
     /**
      * setGrassImage sets all tiles to grass image
      */
-    public void setGrassImage() {
-        ImageIcon grassImport = new ImageIcon("assets/icons/grass.png");
-        Image grassImage = grassImport.getImage();
-        Image newGrassImage = grassImage.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
-        grassImport = new ImageIcon(newGrassImage);
-        
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 10; j++) {
-                this.setTileImage(i, j, grassImport);
-            }
-        }
+    public void setTileImage(int x, int y, String name) {
+        setTileImage(x, y, this.tileImages.get("Rock"));
+    }
+    public void setTextFieldActionListener(ActionListener actionListener) {
+        this.chatbox.addActionListener(actionListener);
+    }
+
+    public void appendLogsBoxText(String text) {
+        logsbox.append(text);
+    }
+
+    public void clearLogsBox() {
+        logsbox.removeAll();
+        logsbox.append("Hello Farmer! Kumain ka na ba?\n");
+        logsbox.append("Need help? Type 'help' below.\n");
+        logsbox.append("----------------------------------\n");
     }
 }

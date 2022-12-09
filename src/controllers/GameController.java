@@ -2,28 +2,48 @@ package controllers;
 
 import gameClasses.*;
 import models.FarmModel;
+import models.FarmView;
 import models.PlayerModel;
 import models.ToolValidity;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
 
 public class GameController {
     private FarmModel farmModel;
+    private FarmView farmView;
     private PlayerModel playerModel;
     private ToolValidity toolValidity;
     private Dictionary<String, Command> toolCommands;
     private Dictionary<String, Command> gameCommands;
     private int day;
 
-    public GameController() {
-        this.farmModel = new FarmModel();
-        this.playerModel = new PlayerModel();
+    public GameController(FarmModel farmModel, FarmView farmView, PlayerModel playerModel) {
+        this.farmModel = farmModel;
+        this.farmView = farmView;
+        this.playerModel =  playerModel;
         this.toolValidity = new ToolValidity();
         this.toolCommands = new Hashtable();
         this.gameCommands = new Hashtable();
         day = 0;
         initRocks();
         initCommands();
+
+        this.farmView.setTextFieldActionListener(e -> {
+            JTextField textField = (JTextField)e.getSource();
+            String text = textField.getText();
+
+            compileCommand(text);
+        });
+
+        /* for(int i = 0; i < 5; i++) {
+            for(int j = 0; j < 10; j++) {
+                if(this.farmModel.getTileState(new Coordinate(i, j)) == State.ROCK)
+                    this.farmView.setTileImage(i, j, "Rock");
+            }
+        }*/
     }
 
     private void initRocks() {
@@ -156,6 +176,7 @@ public class GameController {
         farmModel.setPlant(plant, coordinate);
         farmModel.setState(State.PLANT, coordinate);
         playerModel.decreaseMoney(plant.getStorePrice());
+
     }
 
     private void harvest(String[] commands) {
