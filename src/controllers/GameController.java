@@ -38,12 +38,14 @@ public class GameController {
             compileCommand(text);
         });
 
-        /* for(int i = 0; i < 5; i++) {
+         for(int i = 0; i < 5; i++) {
             for(int j = 0; j < 10; j++) {
                 if(this.farmModel.getTileState(new Coordinate(i, j)) == State.ROCK)
                     this.farmView.setTileImage(i, j, "Rock");
+                else
+                    this.farmView.setTileImage(i,j, "Grass");
             }
-        }*/
+        }
     }
 
     private void initRocks() {

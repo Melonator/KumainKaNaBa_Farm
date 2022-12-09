@@ -85,8 +85,8 @@ public class FarmModel {
 
         int i = 0;
         for(String s : list) {
-            for(int j = 0; i < s.length(); i++) {
-                if(s.charAt(i) == '1') {
+            for(int j = 0; j < s.length(); j++) {
+                if(s.charAt(j) == '1') {
                     this.tiles[i][j].setState(State.ROCK);
                 }
             }

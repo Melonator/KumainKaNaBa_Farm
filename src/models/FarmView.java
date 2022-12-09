@@ -83,12 +83,6 @@ public class FarmView {
         // Add Panels to the main frame
         this.mainFrame.add(leftPanel);
         this.mainFrame.setVisible(true);
-
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 10; j++) {
-                this.setTileImage(i, j, this.tileImages.get("Grass"));
-            }
-        }
     }
 
     private ArrayList<String> getPlantNames() {
@@ -569,13 +563,14 @@ public class FarmView {
         JLabel addImage = new JLabel(image);
         addImage.setSize(70,70);
         this.plantTiles[x][y].add(addImage);
+        this.plantTiles[x][y].repaint();
     }
 
     /**
      * setGrassImage sets all tiles to grass image
      */
     public void setTileImage(int x, int y, String name) {
-        setTileImage(x, y, this.tileImages.get("Rock"));
+        setTileImage(x, y, this.tileImages.get(name));
     }
     public void setTextFieldActionListener(ActionListener actionListener) {
         this.chatbox.addActionListener(actionListener);
