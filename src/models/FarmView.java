@@ -86,7 +86,7 @@ public class FarmView {
     }
 
     private ArrayList<String> getPlantNames() {
-        File file = new File("src/plants.txt");
+        File file = new File("readTexts/plants.txt");
         Scanner input = null;
         ArrayList<String> list = new ArrayList();
         ArrayList<String> plantNames = new ArrayList();

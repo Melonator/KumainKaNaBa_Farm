@@ -21,7 +21,7 @@ public class FarmModel {
     }
 
     private void initPlants() {
-        File file = new File("src/plants.txt");
+        File file = new File("readTexts/plants.txt");
         Scanner input = null;
         ArrayList<String> list = new ArrayList();
         try {
@@ -69,7 +69,7 @@ public class FarmModel {
     }
 
     private void initRocks() {
-        File file = new File("src/rocksMap.txt");
+        File file = new File("readTexts/rocksMap.txt");
         Scanner input = null;
         List<String> list = new ArrayList();
         try {
