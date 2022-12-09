@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -86,7 +85,11 @@ public class FarmView {
     }
 
     private ArrayList<String> getPlantNames() {
-        File file = new File("readTexts/plants.txt");
+        String filePath = "readTexts/plants.txt";
+        if(System.getProperty("os.name").equals("Windows 11") || System.getProperty("os.name").equals("Windows 10"))
+            filePath = "src/readTexts/plants.txt";
+
+        File file = new File(filePath);
         Scanner input = null;
         ArrayList<String> list = new ArrayList();
         ArrayList<String> plantNames = new ArrayList();

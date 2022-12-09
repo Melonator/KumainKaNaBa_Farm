@@ -8,11 +8,7 @@
  * 
  */
 
-import java.util.Scanner;
-
 import controllers.GameController;
-import gameClasses.Player;
-import gameClasses.Tile;
 import models.*;
 
 public class Main{

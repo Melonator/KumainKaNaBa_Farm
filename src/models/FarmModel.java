@@ -21,7 +21,11 @@ public class FarmModel {
     }
 
     private void initPlants() {
-        File file = new File("readTexts/plants.txt");
+        String filePath = "readTexts/plants.txt";
+        if(System.getProperty("os.name").equals("Windows 11") || System.getProperty("os.name").equals("Windows 10"))
+            filePath = "src/readTexts/plants.txt";
+
+        File file = new File(filePath);
         Scanner input = null;
         ArrayList<String> list = new ArrayList();
         try {
@@ -69,7 +73,11 @@ public class FarmModel {
     }
 
     private void initRocks() {
-        File file = new File("readTexts/rocksMap.txt");
+        String filePath = "readTexts/rocksMap.txt";
+        if(System.getProperty("os.name").equals("Windows 11") || System.getProperty("os.name").equals("Windows 10"))
+            filePath = "src/readTexts/rocksMap.txt";
+
+        File file = new File(filePath);
         Scanner input = null;
         List<String> list = new ArrayList();
         try {
