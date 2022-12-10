@@ -7,6 +7,11 @@ This Java-based game is a farming simulation game, where the player acts as the 
 ![image](https://user-images.githubusercontent.com/40118781/206843332-2523adb5-ca3f-451d-8279-f108ff6112cc.png)
 
 ## Running the Game
+
+### Method 1
+Go to [releases](https://github.com/Melonator/KumainKaNaBa_Farm/releases/tag/game), download and run `KumainKaNaBa_Farm.jar`.
+
+### Method 2 
 To run the game, you have to do the following:
 1. Clone or download this repository.
 2. Open **Terminal** and cd to the game directory `cd KumainKaNaBa_Farm/src/`.
