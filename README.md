@@ -43,4 +43,4 @@ Use `help` to output all the commands and formatting of the command.
 - To inquire seed requirements, `inquire <seed>`
 
 ## UML Diagram
-Click [here](https://viewer.diagrams.net/?tags=%7B%7D&target=blank&highlight=0000ff&layers=1&nav=1&title=MCO1%20CCPROG3_MP%20Diagram.drawio#Uhttps%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D1x6TJwebty2m6l0SsLIyl0OwDYs0XycSi%26export%3Ddownload) 
+Click [here](https://viewer.diagrams.net/?tags=%7B%7D&target=blank&highlight=000003&layers=1&nav=1&title=CCPROG3_MCO2_UML.drawio#Uhttps%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D1XpLY1zb2PzhkacTGL5mSSNasbNtkNBNM%26export%3Ddownload) 
