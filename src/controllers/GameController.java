@@ -246,13 +246,14 @@ public class GameController {
         promptRegister(leveledUp);
 
         if(leveledUp)
-            farmView.setLevelStatus(String.format("%d", playerModel.getPlayerLevel()));
+            farmView.setLevelStatus(String.valueOf(playerModel.getPlayerLevel()));
 
         playerModel.increaseMoney(finalPrice);
 
         farmView.setTileImage(coordinate.x, coordinate.y, "Grass");
         farmView.appendLogsBoxText("You've harvested " + plant.getName() + "...\n");
-        farmView.appendLogsBoxText("Total Earnings: " + finalPrice + " coins...\n");
+        farmView.appendLogsBoxText("+ " + finalPrice + " coins...\n");
+        farmView.appendLogsBoxText("+ " + plant.getExpYield() + " exp...\n");
 
         farmView.setCoinsStatus(String.format("%.2f", playerModel.getPlayerCoins()));
         farmView.setExpStatus(String.format("%.2f", playerModel.getPlayerExp()));
@@ -280,7 +281,7 @@ public class GameController {
         promptRegister(leveledUp);
 
         if(leveledUp)
-            farmView.setLevelStatus(String.format("%d", playerModel.getPlayerLevel()));
+            farmView.setLevelStatus(String.valueOf(playerModel.getPlayerLevel()));
 
         farmView.setTileImage(coordinate.x, coordinate.y, "Plowed");
         farmView.appendLogsBoxText("You plowed the tile...\n");
@@ -311,7 +312,7 @@ public class GameController {
         promptRegister(leveledUp);
 
         if(leveledUp)
-            farmView.setLevelStatus(String.format("%d", playerModel.getPlayerLevel()));
+            farmView.setLevelStatus(String.valueOf(playerModel.getPlayerLevel()));
 
         farmModel.addWaterCount(coordinate);
         farmView.appendLogsBoxText("You've watered your " + farmModel.getTilePlant(coordinate).getName() + "...\n");
@@ -345,7 +346,7 @@ public class GameController {
         promptRegister(leveledUp);
 
         if(leveledUp)
-            farmView.setLevelStatus(String.format("%d", playerModel.getPlayerLevel()));
+            farmView.setLevelStatus(String.valueOf(playerModel.getPlayerLevel()));
 
         farmModel.addFertCount(coordinate);
         farmView.appendLogsBoxText("You've fertilized your " + farmModel.getTilePlant(coordinate).getName() + " for 10 coins...\n");
@@ -371,12 +372,12 @@ public class GameController {
             return;
         }
 
-        playerModel.decreaseMoney(7);
-        boolean leveledUp = playerModel.addExp(2);
+        playerModel.decreaseMoney(0);
+        boolean leveledUp = playerModel.addExp(51);
         promptRegister(leveledUp);
 
         if(leveledUp)
-            farmView.setLevelStatus(String.format("%d", playerModel.getPlayerLevel()));
+            farmView.setLevelStatus(String.valueOf(playerModel.getPlayerLevel()));
 
         farmModel.removePlant(coordinate);
         farmModel.setState(State.DEFAULT, coordinate);
@@ -410,7 +411,7 @@ public class GameController {
         promptRegister(leveledUp);
 
         if(leveledUp)
-            farmView.setLevelStatus(String.format("%d", playerModel.getPlayerLevel()));
+            farmView.setLevelStatus(String.valueOf(playerModel.getPlayerLevel()));
 
         farmModel.setState(State.DEFAULT, coordinate);
 

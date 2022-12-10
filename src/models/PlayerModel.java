@@ -36,7 +36,7 @@ public class PlayerModel {
 
         // Checks if player has leveled up or not
         int oldLevel = player.getLevel();
-        int newLevel = (int)(player.getExp() / 100);
+        int newLevel = (int)(player.getExp() / 100) ;
         if(oldLevel != newLevel) {
             player.setLevel(newLevel);
             leveledUp = true;
