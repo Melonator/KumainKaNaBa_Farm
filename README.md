@@ -5,6 +5,9 @@ This repository is a machine project for CCPROG3 class at De La Salle University
 This Java-based game is a farming simulation game, where the player acts as the sole farmer (and manager) of their own farm.
 for the latest UML Diagram.
 
+![image](https://user-images.githubusercontent.com/40118781/206843332-2523adb5-ca3f-451d-8279-f108ff6112cc.png)
+
+
 ## List of Commands
 Use `help` to output all the commands and formatting of the command.
 
