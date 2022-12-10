@@ -104,7 +104,7 @@ public class FarmModel {
     public ArrayList<State> getAdjacentTilesStates(Coordinate coord) {
         ArrayList<State> states = new ArrayList<>();
 
-        if(coord.x == 0 || coord.x == 9 || coord.y == 0 || coord.y == 4) {
+        if(coord.x == 0 || coord.x == 4 || coord.y == 0 || coord.y == 9) {
             return states;
         }
 
