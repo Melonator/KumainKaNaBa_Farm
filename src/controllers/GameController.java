@@ -366,7 +366,9 @@ public class GameController {
                     farmView.appendLogsBoxText("Water max reached...\n");
                     break;
             }
-            return;
+
+            if(errorCode != 4)
+                return;
         }
 
         boolean leveledUp = playerModel.addExp(0.5f);
@@ -404,7 +406,9 @@ public class GameController {
                     farmView.appendLogsBoxText("Fertilizer max reached...\n");
                     break;
             }
-            return;
+            
+            if(errorCode != 4)
+                return;
         }
 
         playerModel.decreaseMoney(10);
