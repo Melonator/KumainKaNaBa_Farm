@@ -7,6 +7,7 @@ import models.PlayerModel;
 import models.ToolValidity;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,8 +40,8 @@ public class GameController {
             String text = textField.getText();
 
             compileCommand(text);
-            textField.setText("Enter command");
-            textField.setForeground(Color.GRAY);
+
+            textField.setText("");
         });
 
         farmView.setCoinsStatus(String.format("%.2f", playerModel.getPlayerCoins()));
