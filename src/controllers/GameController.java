@@ -251,7 +251,7 @@ public class GameController {
         playerModel.increaseMoney(finalPrice);
 
         farmView.setTileImage(coordinate.x, coordinate.y, "Grass");
-        farmView.appendLogsBoxText("You've harvested " + plant.getName() + " " + plant.getName() + "...\n");
+        farmView.appendLogsBoxText("You've harvested " + plant.getName() + "...\n");
         farmView.appendLogsBoxText("Total Earnings: " + finalPrice + " coins...\n");
 
         farmView.setCoinsStatus(String.format("%.2f", playerModel.getPlayerCoins()));
