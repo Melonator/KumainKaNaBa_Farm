@@ -10,8 +10,6 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -40,6 +38,17 @@ public class FarmView {
     private JPanel leftPanel = new JPanel();
     private JTextField chatbox;
     private JTextArea logsbox;
+    private JLabel dayStatus;
+    private JLabel coinsStatus;
+    private JLabel expStatus;
+    private JLabel levelStatus;
+    private JLabel typeStatus;
+    private JLabel waterStatus;
+    private JLabel fertilizerStatus;
+    private JLabel discountStatus;
+    private JLabel bonusProduceStatus;
+
+    private JLabel nextRegisterStatus;
     private int dayCount = 1;
     private JLabel[][] plantTiles = new JLabel[5][10];
     private Hashtable<String, ImageIcon> tileImages;
@@ -106,7 +115,7 @@ public class FarmView {
 
         for(String s : list) {
             String[] values = s.split(" ");
-            plantNames.add(values[0]);
+            plantNames.add(values[0].toLowerCase());
         }
 
         return plantNames;
@@ -185,7 +194,7 @@ public class FarmView {
         // Add Day Count
         JLabel dayIcon = new JLabel(sunImport);
         statusBar.add(dayIcon);
-        JLabel dayStatus = new JLabel("DAY: " + dayCount);
+        dayStatus = new JLabel("DAY: " + dayCount);
         dayStatus.setBorder(BorderFactory.createEmptyBorder(3, 15, 0, 15));
         dayStatus.setForeground(Color.WHITE);
         dayStatus.setFont(new Font("Minecraft", Font.PLAIN, 20));
@@ -194,7 +203,7 @@ public class FarmView {
         // Add Coin Status
         JLabel coinIcon = new JLabel(coinImport);
         statusBar.add(coinIcon);
-        JLabel coinsStatus = new JLabel("COINS: " + "0");
+        coinsStatus = new JLabel("COINS: " + "0");
         coinsStatus.setBorder(BorderFactory.createEmptyBorder(3, 10, 0, 15));
         coinsStatus.setForeground(Color.WHITE);
         coinsStatus.setFont(new Font("Minecraft", Font.PLAIN, 20));  
@@ -203,7 +212,7 @@ public class FarmView {
         // Add Exp Status
         JLabel expIcon = new JLabel(expImport);
         statusBar.add(expIcon);
-        JLabel expStatus = new JLabel("EXP: " + "1000");
+        expStatus = new JLabel("EXP: " + "1000");
         expStatus.setBorder(BorderFactory.createEmptyBorder(3, 10, 0, 15));
         expStatus.setForeground(Color.WHITE);
         expStatus.setFont(new Font("Minecraft", Font.PLAIN, 20));
@@ -212,7 +221,7 @@ public class FarmView {
         // Add Level Status
         JLabel lvlIcon = new JLabel(lvlImport);
         statusBar.add(lvlIcon);
-        JLabel levelStatus = new JLabel("LVL: " + "0");
+        levelStatus = new JLabel("LVL: " + "0");
         levelStatus.setBorder(BorderFactory.createEmptyBorder(3, 10, 0, 15));
         levelStatus.setForeground(Color.WHITE);
         levelStatus.setFont(new Font("Minecraft", Font.PLAIN, 20));
@@ -221,7 +230,7 @@ public class FarmView {
         // Add Type Status
         JLabel farmerTypeIcon = new JLabel(farmerTypeImport);
         statusBar.add(farmerTypeIcon);
-        JLabel typeStatus = new JLabel("TYPE: " + "Farmer");
+        typeStatus = new JLabel("TYPE: " + "Farmer");
         typeStatus.setBorder(BorderFactory.createEmptyBorder(3, 10, 0, 15));
         typeStatus.setForeground(Color.WHITE);
         typeStatus.setFont(new Font("Minecraft", Font.PLAIN, 20));
@@ -362,7 +371,7 @@ public class FarmView {
         // Add Water Bonus
         JLabel waterIcon = new JLabel(waterImport);
         waterPanel.add(waterIcon);
-        JLabel waterStatus = new JLabel("WATER BONUS: " + "0");
+        waterStatus = new JLabel("WATER BONUS: " + "0");
         waterStatus.setBorder(BorderFactory.createEmptyBorder(3, 10, 0, 15));
         waterStatus.setForeground(Color.WHITE);
         waterStatus.setFont(new Font("Minecraft", Font.PLAIN, 18));
@@ -378,7 +387,7 @@ public class FarmView {
         // Add Fertilizer Bonus
         JLabel fertilizerIcon = new JLabel(fertilizerImport);
         fertilizerPanel.add(fertilizerIcon);
-        JLabel fertilizerStatus = new JLabel("FERT. BONUS: " + "0");
+        fertilizerStatus = new JLabel("FERT. BONUS: " + "0");
         fertilizerStatus.setBorder(BorderFactory.createEmptyBorder(3, 10, 0, 15));
         fertilizerStatus.setForeground(Color.WHITE);
         fertilizerStatus.setFont(new Font("Minecraft", Font.PLAIN, 18));
@@ -394,7 +403,7 @@ public class FarmView {
         // Add Discount
         JLabel discountIcon = new JLabel(discountImport);
         discountPanel.add(discountIcon);
-        JLabel discountStatus = new JLabel("DISCOUNT BONUS: " + "0");
+        discountStatus = new JLabel("DISCOUNT BONUS: " + "0");
         discountStatus.setBorder(BorderFactory.createEmptyBorder(3, 10, 0, 15));
         discountStatus.setForeground(Color.WHITE);
         discountStatus.setFont(new Font("Minecraft", Font.PLAIN, 18));
@@ -410,7 +419,7 @@ public class FarmView {
         // Add Bonus Produce
         JLabel bonusProduceIcon = new JLabel(bonusProduceImport);
         bonusProducePanel.add(bonusProduceIcon);
-        JLabel bonusProduceStatus = new JLabel("BONUS PRODUCE: " + "0");
+        bonusProduceStatus = new JLabel("BONUS PRODUCE: " + "0");
         bonusProduceStatus.setBorder(BorderFactory.createEmptyBorder(3, 10, 0, 15));
         bonusProduceStatus.setForeground(Color.WHITE);
         bonusProduceStatus.setFont(new Font("Minecraft", Font.PLAIN, 18));
@@ -426,7 +435,7 @@ public class FarmView {
         // Add Next Register
         JLabel nextRegisterIcon = new JLabel(nextRegisterImport);
         nextRegisterPanel.add(nextRegisterIcon);
-        JLabel nextRegisterStatus = new JLabel("NEXT REGISTER: " + "0");
+        nextRegisterStatus = new JLabel("NEXT REGISTER: " + "NONE");
         nextRegisterStatus.setBorder(BorderFactory.createEmptyBorder(3, 10, 0, 15));
         nextRegisterStatus.setForeground(Color.WHITE);
         nextRegisterStatus.setFont(new Font("Minecraft", Font.PLAIN, 18));
@@ -575,6 +584,47 @@ public class FarmView {
     public void setTileImage(int x, int y, String name) {
         setTileImage(x, y, this.tileImages.get(name));
     }
+
+    public void setDayStatus(String value) {
+        this.dayStatus.setText("DAY: "+value);
+    }
+
+    public void setCoinsStatus(String value) {
+        this.coinsStatus.setText("COINS: "+value);
+    }
+
+    public void setExpStatus(String value) {
+        this.expStatus.setText("EXP: "+value);
+    }
+
+    public void setLevelStatus(String value) {
+        this.levelStatus.setText("LVL: "+value);
+    }
+
+    public void setTypeStatus(String value) {
+        this.typeStatus.setText("TYPE: "+value);
+    }
+
+    public void setWaterStatus(String value) {
+        this.waterStatus.setText("WATER BONUS: "+value);
+    }
+
+    public void setFertilizerStatus(String value) {
+        this.fertilizerStatus.setText("FERT. BONUS: " +value);
+    }
+
+    public void setDiscountStatus(String value) {
+        this.discountStatus.setText("DISCOUNT BONUS: "+value);
+    }
+
+    public void setBonusProduceStatus(String value) {
+        this.bonusProduceStatus.setText("BONUS PRODUCE: "+value);
+    }
+
+    public void setNextRegisterStatus(String value) {
+        this.nextRegisterStatus.setText("NEXT REGISTER: "+value);
+    }
+
     public void setTextFieldActionListener(ActionListener actionListener) {
         this.chatbox.addActionListener(actionListener);
     }
@@ -584,9 +634,14 @@ public class FarmView {
     }
 
     public void clearLogsBox() {
-        logsbox.removeAll();
+        logsbox.setText("");
         logsbox.append("Hello Farmer! Kumain ka na ba?\n");
         logsbox.append("Need help? Type 'help' below.\n");
         logsbox.append("----------------------------------\n");
     }
+
+    public void disableChatBox() {
+        chatbox.setEditable(false);
+    }
+
 }

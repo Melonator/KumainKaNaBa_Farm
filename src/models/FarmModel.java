@@ -42,7 +42,7 @@ public class FarmModel {
         for(String s : list) {
             String[] values = s.split(" ");
             Plant p = createPlantFromText(values);
-            this.plantMasterList.put(p.getName(), p);
+            this.plantMasterList.put(p.getName().toLowerCase(), p);
         }
     }
 
@@ -101,43 +101,43 @@ public class FarmModel {
             i++;
         }
     }
-    public ArrayList<Tile> getAdjacentTiles(Coordinate coord) {
-        ArrayList<Tile> tiles = new ArrayList<>();
+    public ArrayList<State> getAdjacentTilesStates(Coordinate coord) {
+        ArrayList<State> states = new ArrayList<>();
 
         if(coord.x == 0 || coord.x == 9 || coord.y == 0 || coord.y == 4) {
-            return tiles;
+            return states;
         }
 
-        tiles.add(this.tiles[coord.x - 1][coord.y + 1]);
-        tiles.add(this.tiles[coord.x][coord.y + 1]);
-        tiles.add(this.tiles[coord.x + 1][coord.y + 1]);
+        states.add(this.tiles[coord.x - 1][coord.y + 1].getState());
+        states.add(this.tiles[coord.x][coord.y + 1].getState());
+        states.add(this.tiles[coord.x + 1][coord.y + 1].getState());
 
-        tiles.add(this.tiles[coord.x - 1][coord.y]);
-        tiles.add(this.tiles[coord.x + 1][coord.y]);
+        states.add(this.tiles[coord.x - 1][coord.y].getState());
+        states.add(this.tiles[coord.x + 1][coord.y].getState());
 
-        tiles.add(this.tiles[coord.x - 1][coord.y - 1]);
-        tiles.add(this.tiles[coord.x][coord.y - 1]);
-        tiles.add(this.tiles[coord.x + 1][coord.y - 1]);
-        return tiles;
+        states.add(this.tiles[coord.x - 1][coord.y - 1].getState());
+        states.add(this.tiles[coord.x][coord.y - 1].getState());
+        states.add(this.tiles[coord.x + 1][coord.y - 1].getState());
+        return states;
     }
 
     public void setPlant(Plant plant, Coordinate coord) {
        tiles[coord.x][coord.y].setPlant(plant);
     }
 
-    public void decHarvestDays(Tile tile) {
-        int currHarvestDays = tile.getHarvestDays();
-        tile.setHarvestDays(currHarvestDays - 1);
+    public void decHarvestDays(Coordinate coord) {
+        int currHarvestDays = tiles[coord.x][coord.y].getHarvestDays();
+        tiles[coord.x][coord.y].setHarvestDays(currHarvestDays - 1);
     }
 
-    public void addWaterCount(int bonus, Coordinate coord) {
+    public void addWaterCount(Coordinate coord) {
         int currWaterCount = tiles[coord.x][coord.y].getWaterCount();
-        tiles[coord.x][coord.y].setHarvestDays(currWaterCount + 1);
+        tiles[coord.x][coord.y].setWaterCount(currWaterCount + 1);
     }
 
-    public void addFertCount(int bonus, Coordinate coord) {
+    public void addFertCount(Coordinate coord) {
         int currFertCount = tiles[coord.x][coord.y].getFertCount();
-        tiles[coord.x][coord.y].setHarvestDays(currFertCount + 1);
+        tiles[coord.x][coord.y].setFertCount(currFertCount + 1);
     }
 
     public void setState(State state, Coordinate coord) {
@@ -154,7 +154,6 @@ public class FarmModel {
     }
 
     public Plant getPlantFromList(String plantName) {
-        plantName = plantName.substring(0,1).toUpperCase() + plantName.substring(1);
         return this.plantMasterList.get(plantName);
     }
 
@@ -178,15 +177,14 @@ public class FarmModel {
         return tiles[coord.x][coord.y].getState();
     }
 
-    public ArrayList<Tile> getActiveGrowingCrops() {
-        ArrayList<Tile> activeCrops = new ArrayList();
-        for(Tile[] tiles : this.tiles) {
-            for(Tile t : tiles) {
-                if(t.getState() == State.PLANT)
-                    activeCrops.add(t);
+    public ArrayList<Coordinate> getActiveGrowingCrops() {
+        ArrayList<Coordinate> activeCrops = new ArrayList();
+        for(int i = 0; i < 5; i++) {
+            for(int j = 0; j < 10; j++) {
+                if(tiles[i][j].getState() == State.PLANT)
+                    activeCrops.add(new Coordinate(i, j));
             }
         }
-
         return activeCrops;
     }
 }

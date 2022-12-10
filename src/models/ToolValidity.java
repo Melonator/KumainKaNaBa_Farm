@@ -12,20 +12,20 @@ public class ToolValidity {
         return 1;
     }
     
-    public int validatePlant(Tile[] adjacentTiles, State state, Plant plant, float playerCoins) {
+    public int validatePlant(State[] adjacentTiles, State state, Plant plant, float playerCoins) {
         if(playerCoins < plant.getStorePrice())
             return -1;
 
         if(state != State.PLOWED)
             return -1;
 
-        if(plant.getType() == "Tree" && adjacentTiles.length != 8) {
+        if(plant.getType().equals("Fruit-Tree") && adjacentTiles.length != 8) {
             return -1;
         }
 
-        if(plant.getType() == "Tree") {
-            for(Tile t : adjacentTiles) {
-                if(t.getState() != State.DEFAULT) {
+        if(plant.getType().equals("Fruit-Tree")) {
+            for(State s: adjacentTiles) {
+                if(s == State.ROCK || s == State.PLANT || s == State.WITHERED) {
                     return -1;
                 }
             }
@@ -44,18 +44,24 @@ public class ToolValidity {
         return 1;
     }
 
-    public int validateWater(State state) {
+    public int validateWater(State state, int waterCount, int waterMax, int bonus) {
         if(state != State.PLANT)
+            return -1;
+
+        if(waterCount >= waterMax + bonus)
             return -1;
 
         return 1;
     }
 
-    public int validateFert(State state, float playerCoins) {
+    public int validateFert(State state, float playerCoins, int fertCount, int fertMax, int bonus) {
         if(state != State.PLANT)
             return -1;
 
         if(playerCoins < 10)
+            return -1;
+
+        if(fertCount >= fertMax + bonus)
             return -1;
 
         return 1;
@@ -65,7 +71,7 @@ public class ToolValidity {
         if(state != State.ROCK)
             return -1;
 
-        if(playerCoins < 100)
+        if(playerCoins < 50)
             return -1;
 
         return 1;
@@ -75,7 +81,7 @@ public class ToolValidity {
         if(state == State.ROCK)
             return -1;
 
-        if(playerCoins < 100)
+        if(playerCoins < 7)
             return -1;
 
         return 1;

@@ -1,0 +1,3 @@
+Registered-Farmer 1 1 0 0 200
+Distinguished-Farmer 2 2 1 0 300
+Legendary-Farmer 4 3 2 1 400
