@@ -191,15 +191,26 @@ public class GameController {
                 farmModel.getTileState(coordinate), plant, playerModel.getPlayerCoins());
 
         if(errorCode != 1) {
+            switch(errorCode){
+                case 0:
+                    farmView.appendLogsBoxText("Medyo gipit tayo ngayon...\n");
+                    break;
+                case 2:
+                    farmView.appendLogsBoxText("Plow it first...\n");
+                    break;
+                case 3:
+                    farmView.appendLogsBoxText("No space...\n");
+                    break;
+            }
+
             return;
         }
-
         farmModel.setPlant(plant, coordinate);
         farmModel.setState(State.PLANT, coordinate);
         playerModel.decreaseMoney(plant.getStorePrice() - playerModel.getPlayerFarmerType().getSeedDiscount());
 
         farmView.setTileImage(coordinate.x, coordinate.y, commands[1]);
-        farmView.appendLogsBoxText("You've planted a " + plant.getName() + "for " + plant.getStorePrice() + " coins...\n");
+        farmView.appendLogsBoxText("You've planted a " + plant.getName() + " for " + plant.getStorePrice() + " coins...\n");
 
         farmView.setCoinsStatus(String.format("%.2f", playerModel.getPlayerCoins()));
     }
@@ -209,8 +220,18 @@ public class GameController {
         Plant plant = farmModel.getTilePlant(coordinate);
         int errorCode = toolValidity.validateHarvest(farmModel.getTileState(coordinate), farmModel.getTileHarvestDays(coordinate));
 
-        if(errorCode != 1)
+        if(errorCode != 1) {
+            switch(errorCode){
+                case 2:
+                    farmView.appendLogsBoxText("What are you trying to harvest???\n");
+                    break;
+                case 4:
+                    farmView.appendLogsBoxText("Not ready for harvest yet...\n");
+                    break;
+            }
+
             return;
+        }
 
 
         FarmerType farmerType = playerModel.getPlayerFarmerType();
@@ -245,11 +266,16 @@ public class GameController {
         Coordinate coordinate = new Coordinate(commands[1]);
         int errorCode = toolValidity.validatePlow(farmModel.getTileState(coordinate));
 
-        if(errorCode != 1)
-            return;
+        if(errorCode != 1) {
+            switch(errorCode) {
+                case 2:
+                    farmView.appendLogsBoxText("You can't plow on that...\n");
+                    break;
+            }
+        }
 
         farmModel.setState(State.PLOWED, coordinate);
-        boolean leveledUp = playerModel.addExp(100);
+        boolean leveledUp = playerModel.addExp(0.5f);
         promptRegister(leveledUp);
 
         if(leveledUp)
@@ -268,8 +294,17 @@ public class GameController {
         int errorCode = toolValidity.validateWater(farmModel.getTileState(coordinate), farmModel.getTileWaterCount(coordinate),
                 farmModel.getTilePlant(coordinate).getWaterMax(), farmerType.getWaterBonus());
 
-        if(errorCode != 1)
+        if(errorCode != 1) {
+            switch(errorCode) {
+                case 2:
+                    farmView.appendLogsBoxText("Nothing to water here...\n");
+                    break;
+                case 4:
+                    farmView.appendLogsBoxText("Water max reached...\n");
+                    break;
+            }
             return;
+        }
 
         boolean leveledUp = playerModel.addExp(0.5f);
         promptRegister(leveledUp);
@@ -290,8 +325,19 @@ public class GameController {
         int errorCode = toolValidity.validateFert(farmModel.getTileState(coordinate), playerModel.getPlayerCoins(), farmModel.getTileFertCount(coordinate),
                 farmModel.getTilePlant(coordinate).getFertMax(), farmerType.getFertBonus());
 
-        if(errorCode != 1)
+        if(errorCode != 1) {
+            switch(errorCode) {
+                case 0:
+                    farmView.appendLogsBoxText("Medyo gipit tayo ngayon...\n");
+                case 2:
+                    farmView.appendLogsBoxText("Nothing to fertilize here...\n");
+                    break;
+                case 4:
+                    farmView.appendLogsBoxText("Fertilizer max reached...\n");
+                    break;
+            }
             return;
+        }
 
         playerModel.decreaseMoney(10);
         boolean leveledUp = playerModel.addExp(4);
@@ -312,8 +358,17 @@ public class GameController {
         Coordinate coordinate = new Coordinate(commands[1]);
         int errorCode = toolValidity.validateShovel(farmModel.getTileState(coordinate), playerModel.getPlayerCoins());
 
-        if(errorCode != 1)
+        if(errorCode != 1) {
+            switch(errorCode){
+                case 0:
+                    farmView.appendLogsBoxText("Medyo gipit tayo ngayon...\n");
+                    break;
+                case 2:
+                    farmView.appendLogsBoxText("You can't shovel a rock...\n");
+                    break;
+            }
             return;
+        }
 
         playerModel.decreaseMoney(7);
         boolean leveledUp = playerModel.addExp(2);
@@ -337,8 +392,17 @@ public class GameController {
         Coordinate coordinate = new Coordinate(commands[1]);
         int errorCode = toolValidity.validatePick(farmModel.getTileState(coordinate), playerModel.getPlayerCoins());
 
-        if(errorCode != 1)
+        if(errorCode != 1) {
+            switch(errorCode) {
+                case 0:
+                    farmView.appendLogsBoxText("Medyo gipit tayo ngayon...\n");
+                    break;
+                case 2:
+                    farmView.appendLogsBoxText("What are you even trying to do...\n");
+                    break;
+            }
             return;
+        }
 
         playerModel.decreaseMoney(50);
         boolean leveledUp = playerModel.addExp(15);
@@ -361,6 +425,7 @@ public class GameController {
         ArrayList<Coordinate> activeCrops = farmModel.getActiveGrowingCrops();
         this.day++;
 
+        farmView.appendLogsBoxText("Sleeping...\n");
         farmView.setDayStatus(Integer.toString(this.day));
         for(Coordinate coord : activeCrops) {
             Plant p = farmModel.getTilePlant(coord);
@@ -392,7 +457,10 @@ public class GameController {
         activeCrops = farmModel.getActiveGrowingCrops();
         if(activeCrops.size() == 0) {
             if(playerModel.getPlayerCoins() < 5) {
-                // Game over
+                farmView.disableChatBox();
+                farmView.appendLogsBoxText("Bakit ka kasi nagpakagutom?!\n");
+                farmView.appendLogsBoxText("*Sinapak ang pader*\n");
+                farmView.appendLogsBoxText("(Game over na btw)\n");
             }
         }
     }
