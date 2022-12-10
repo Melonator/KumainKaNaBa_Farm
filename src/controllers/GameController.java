@@ -450,8 +450,10 @@ public class GameController {
                     farmView.setTileImage(coord.x, coord.y, "withered");
                     farmView.appendLogsBoxText("Your " + p.getName() + " withered...\n");
                 }
-                else
-                    farmView.appendLogsBoxText(farmModel.getTilePlant(coord).getName() + " ready to harvest!\n");
+                else {
+                    char c = (char)(coord.y + 97);
+                    farmView.appendLogsBoxText(farmModel.getTilePlant(coord).getName() + " on " + (coord.x + 1) + c + " ready to harvest!\n");
+                }
             }
         }
 
