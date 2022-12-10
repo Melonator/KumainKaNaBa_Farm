@@ -1,4 +1,4 @@
-package views;
+package models;
 
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
@@ -101,10 +101,6 @@ public class FarmView {
         this.mainFrame.setVisible(true);
     }
 
-    /**
-     * Reads the plants.txt file and returns an ArrayList of the plant names.
-     * @return ArrayList of plantNames
-     */
     private ArrayList<String> getPlantNames() {
         String filePath = "readTexts/plants.txt";
         if(System.getProperty("os.name").equals("Windows 11") || System.getProperty("os.name").equals("Windows 10"))
@@ -132,10 +128,6 @@ public class FarmView {
 
         return plantNames;
     }
-
-    /**
-     * Initializes the images of the plants and tiles.
-     */
     private void initializePlantImages() {
         for(String s : getPlantNames()) {
             ImageIcon plantImport = new ImageIcon(getClass().getResource("/assets/icons/" +s+".png"));
@@ -581,10 +573,10 @@ public class FarmView {
     }
 
     /**
-     * Private method that sets the image of a tile
-     * @param x row of tile
-     * @param y column of tile
-     * @param image image to be set
+     * setTileImage sets the image of a tile
+     * @param x
+     * @param y
+     * @param image
      */
     private void setTileImage(int x, int y, ImageIcon image) {
         this.plantTiles[x][y].removeAll();
@@ -595,115 +587,61 @@ public class FarmView {
     }
 
     /**
-     * Public method that sets the image of a tile
-     * @param x row of tile
-     * @param y column of tile
-     * @param name name of image to be set
+     * setGrassImage sets all tiles to grass image
      */
     public void setTileImage(int x, int y, String name) {
         setTileImage(x, y, this.tileImages.get(name));
     }
 
-    /**
-     * Sets the status of the day
-     * @param value value of the day
-     */
     public void setDayStatus(String value) {
         this.dayStatus.setText("DAY: "+value);
     }
 
-    /**
-     * Sets the status of the coins
-     * @param value value of the coins
-     */
     public void setCoinsStatus(String value) {
         this.coinsStatus.setText("COINS: "+value);
     }
 
-    /**
-     * Sets the status of the experience
-     * @param value value of the experience
-     */
     public void setExpStatus(String value) {
         this.expStatus.setText("EXP: "+value);
     }
 
-    /**
-     * Sets the status of the level
-     * @param value value of the level
-     */
     public void setLevelStatus(String value) {
         this.levelStatus.setText("LVL: "+value);
     }
 
-    /**
-     * Sets farmer type status
-     * @param value name of the farmer type
-     */
     public void setTypeStatus(String value) {
         this.typeStatus.setText("TYPE: "+value);
     }
 
-    /**
-     * Sets the status of the water
-     * @param value value of the water
-     */
     public void setWaterStatus(String value) {
         this.waterStatus.setText("WATER BONUS: "+value);
     }
 
-    /**
-     * Sets the status of the fertilizer
-     * @param value value of the fertilizer
-     */
     public void setFertilizerStatus(String value) {
         this.fertilizerStatus.setText("FERT. BONUS: " +value);
     }
 
-    /**
-     * Sets the status of the discount
-     * @param value value of the discount
-     */
     public void setDiscountStatus(String value) {
         this.discountStatus.setText("DISCOUNT BONUS: "+value);
     }
 
-    /**
-     * Sets the status of the bonus produce
-     * @param value value of the bonus produce
-     */
     public void setBonusProduceStatus(String value) {
         this.bonusProduceStatus.setText("BONUS PRODUCE: "+value);
     }
 
-    /**
-     * Sets the status of the next register
-     * @param value value of the next register
-     */
     public void setNextRegisterStatus(String value) {
         this.nextRegisterStatus.setText("NEXT REGISTER: "+value);
     }
 
-    /**
-     * Sets the action listener of the chatbox
-     * @param actionListener action listener of the chatbox
-     */
     public void setTextFieldActionListener(ActionListener actionListener) {
         this.chatbox.addActionListener(actionListener);
     }
 
-    /**
-     * Appends text to the logsbox
-     * @param text text to be appended
-     */
     public void appendLogsBoxText(String text) {
         logsbox.append(text);
         logsbox.setCaretPosition(logsbox.getDocument().getLength() - 1);
     }
 
-    /**
-     * Clears the logsbox
-     */
     public void clearLogsBox() {
         logsbox.setText("");
         logsbox.append("Hello Farmer! Kumain ka na ba?\n");
@@ -711,9 +649,6 @@ public class FarmView {
         logsbox.append("----------------------------------\n");
     }
 
-    /**
-     * Disables the chatbox
-     */
     public void disableChatBox() {
         chatbox.setEditable(false);
     }

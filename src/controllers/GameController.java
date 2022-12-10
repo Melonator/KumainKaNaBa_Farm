@@ -2,33 +2,27 @@ package controllers;
 
 import gameClasses.*;
 import models.FarmModel;
-import views.FarmView;
+import models.FarmView;
 import models.PlayerModel;
-import gameClasses.ToolValidity;
+import models.ToolValidity;
 
 import javax.swing.*;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
 
-/**
- * This class is the controller for the game. It contains the logic for the game, housing all the models and views.
- */
 public class GameController {
-    private FarmModel farmModel; // the model for the farm
-    private FarmView farmView; // the view for the farm
-    private PlayerModel playerModel; // the model for the player
-    private ToolValidity toolValidity; // the model for the tool validity
-    private Dictionary<String, Command> toolCommands; // the dictionary of tool commands
-    private Dictionary<String, Command> gameCommands; // the dictionary of game commands
-    private boolean canRegister; // whether the player can register a farmer or not
-    private int day; // the current day
+    private FarmModel farmModel;
+    private FarmView farmView;
+    private PlayerModel playerModel;
+    private ToolValidity toolValidity;
+    private Dictionary<String, Command> toolCommands;
+    private Dictionary<String, Command> gameCommands;
+    private boolean canRegister;
+    private int day;
 
-    /**
-     * Constructor for GameController. Initializes the models, tiles, and views, as well as the tool and game commands.
-     * @param farmModel the model for the farm
-     * @param farmView the view for the farm
-     * @param playerModel the model for the player
-     */
     public GameController(FarmModel farmModel, FarmView farmView, PlayerModel playerModel) {
         this.farmModel = farmModel;
         this.farmView = farmView;
@@ -41,7 +35,6 @@ public class GameController {
         initTileImages();
         initCommands();
 
-        // Setting the action listener for the text field.
         this.farmView.setTextFieldActionListener(e -> {
             JTextField textField = (JTextField)e.getSource();
             String text = textField.getText();
@@ -57,9 +50,6 @@ public class GameController {
         setFarmerTypeBonusLabels();
     }
 
-    /**
-     * Initializes the tile images, whether they are grass or rock.
-     */
     private void initTileImages() {
         for(int i = 0; i < 5; i++) {
             for(int j = 0; j < 10; j++) {
@@ -71,9 +61,6 @@ public class GameController {
         }
     }
 
-    /**
-     * Initializes the tool and game commands.
-     */
     private void initCommands() {
         final Command plant = this::plant;
         final Command harvest = this::harvest;
@@ -100,11 +87,6 @@ public class GameController {
         gameCommands.put("sleep", advanceDay);
     }
 
-    /**
-     * Parses the command and returns the type of command.
-     * @param commands the commands and its arguments
-     * @return the type of command
-     */
     public String parseCommand(String[] commands) {
         if(toolCommands.get(commands[0]) != null) {
             return "tool";
@@ -113,23 +95,18 @@ public class GameController {
         else if(gameCommands.get(commands[0]) != null || commands[0].equals("inquire")) {
             if(commands[0].equals("inquire")) {
                 if(isPlant(commands[1])) {
-                    commands[0] = "inquire plant"; // changes the command to inquire plant if the second argument is a plant
+                    commands[0] = "inquire plant";
                 }
                 else {
-                    commands[0] = "inquire tile"; // changes the command to inquire tile if the second argument is a tile
+                    commands[0] = "inquire tile";
                 }
             }
 
-            return "game"; 
+            return "game";
         }
         else
             return "no type";
     }
-
-    /**
-     * Checks the validity of the command and its arguments, parses the command, and executes the command.
-     * @param command the command and its arguments
-     */
     public void compileCommand(String command) {
         command.toLowerCase();
         String[] commands = command.split(" ");
@@ -150,11 +127,6 @@ public class GameController {
             displayHelp();
     }
 
-    /**
-     * Checks the validity of the command and its arguments.
-     * @param commands the command and its arguments
-     * @return true if the command and its arguments are valid, false otherwise
-     */
     private boolean checkCommandValidity(String[] commands) {
        if (toolCommands.get(commands[0]) != null) {
            if(commands[0].equals("plant")) {
@@ -192,11 +164,6 @@ public class GameController {
        return false;
     }
 
-    /**
-     * Checks if the argument is a plant.
-     * @param input the input to be checked
-     * @return true if the input is a plant, false otherwise
-     */
     private boolean isPlant(String input) {
         if(farmModel.getPlantFromList(input) == null)
             return false;
@@ -204,11 +171,6 @@ public class GameController {
         return true;
     }
 
-    /**
-     * Checks if the argument is a coordinate.
-     * @param coordinate the coordinate to be checked
-     * @return true if the coordinate is valid, false otherwise
-     */
     private boolean isCoordinate(String coordinate) {
         if(coordinate.length() != 2)
             return false;
@@ -222,10 +184,6 @@ public class GameController {
         return true;
     }
 
-    /**
-     * Executes the plant command.
-     * @param commands the command and its arguments
-     */
     private void plant(String[] commands) {
         Coordinate coordinate = new Coordinate(commands[2]);
         ArrayList<State> adjacentTilesStates = farmModel.getAdjacentTilesStates(coordinate);
@@ -233,7 +191,6 @@ public class GameController {
         int errorCode = toolValidity.validatePlant(adjacentTilesStates.toArray(new State[adjacentTilesStates.size()]),
                 farmModel.getTileState(coordinate), plant, playerModel.getPlayerCoins());
 
-        // Feedback to view for invalid commands
         if(errorCode != 1) {
             switch(errorCode){
                 case 0:
@@ -258,16 +215,11 @@ public class GameController {
         farmView.setCoinsStatus(String.format("%.2f", playerModel.getPlayerCoins()));
     }
 
-    /**
-     * Executes the harvest command.
-     * @param commands the command and its arguments
-     */
     private void harvest(String[] commands) {
         Coordinate coordinate = new Coordinate(commands[1]);
         Plant plant = farmModel.getTilePlant(coordinate);
         int errorCode = toolValidity.validateHarvest(farmModel.getTileState(coordinate), farmModel.getTileHarvestDays(coordinate));
 
-        // Feedback to view for invalid commands
         if(errorCode != 1) {
             switch(errorCode){
                 case 2:
@@ -280,7 +232,7 @@ public class GameController {
             return;
         }
 
-        // Calculate the final price of the harvest
+
         FarmerType farmerType = playerModel.getPlayerFarmerType();
         int produce = new Random().nextInt(plant.getMaxProduce() - plant.getMinProduce() + 1) + plant.getMinProduce();
         int harvestTotal = produce * (plant.getRetail() + farmerType.getBonusProduce());
@@ -310,15 +262,10 @@ public class GameController {
         farmModel.setState(State.DEFAULT, coordinate);
     }
 
-    /**
-     * Executes the plow command.
-     * @param commands the command and its arguments
-     */
     private void plow(String[] commands) {
         Coordinate coordinate = new Coordinate(commands[1]);
         int errorCode = toolValidity.validatePlow(farmModel.getTileState(coordinate));
 
-        // Feedback to view for invalid commands
         if(errorCode != 1) {
             switch(errorCode) {
                 case 2:
@@ -343,17 +290,12 @@ public class GameController {
         farmView.setExpStatus(String.format("%.2f", playerModel.getPlayerExp()));
     }
 
-    /**
-     * Executes the water command.
-     * @param commands the command and its arguments
-     */
     private void water(String[] commands) {
         Coordinate coordinate = new Coordinate(commands[1]);
         FarmerType farmerType = playerModel.getPlayerFarmerType();
         int errorCode = toolValidity.validateWater(farmModel.getTileState(coordinate), farmModel.getTileWaterCount(coordinate),
                 farmModel.getTilePlant(coordinate).getWaterMax(), farmerType.getWaterBonus());
 
-        // Feedback to view for invalid commands
         if(errorCode != 1) {
             switch(errorCode) {
                 case 2:
@@ -363,9 +305,7 @@ public class GameController {
                     farmView.appendLogsBoxText("Water max reached...\n");
                     break;
             }
-
-            if(errorCode != 4)
-                return;
+            return;
         }
 
         boolean leveledUp = playerModel.addExp(0.5f);
@@ -381,17 +321,12 @@ public class GameController {
         farmView.setExpStatus(String.format("%.2f", playerModel.getPlayerExp()));
     }
 
-    /**
-     * Executes the fertilize command.
-     * @param commands the command and its arguments
-     */
     private void fertilize(String[] commands) {
         Coordinate coordinate = new Coordinate(commands[1]);
         FarmerType farmerType = playerModel.getPlayerFarmerType();
         int errorCode = toolValidity.validateFert(farmModel.getTileState(coordinate), playerModel.getPlayerCoins(), farmModel.getTileFertCount(coordinate),
                 farmModel.getTilePlant(coordinate).getFertMax(), farmerType.getFertBonus());
 
-        // Feedback to view for invalid commands
         if(errorCode != 1) {
             switch(errorCode) {
                 case 0:
@@ -403,9 +338,7 @@ public class GameController {
                     farmView.appendLogsBoxText("Fertilizer max reached...\n");
                     break;
             }
-            
-            if(errorCode != 4)
-                return;
+            return;
         }
 
         playerModel.decreaseMoney(10);
@@ -423,15 +356,10 @@ public class GameController {
         farmView.setExpStatus(String.format("%.2f", playerModel.getPlayerExp()));
     }
 
-    /**
-     * Executes the shovel command.
-     * @param commands the command and its arguments
-     */
     private void shovel(String[] commands) {
         Coordinate coordinate = new Coordinate(commands[1]);
         int errorCode = toolValidity.validateShovel(farmModel.getTileState(coordinate), playerModel.getPlayerCoins());
 
-        // Feedback to view for invalid commands
         if(errorCode != 1) {
             switch(errorCode){
                 case 0:
@@ -462,15 +390,10 @@ public class GameController {
         farmView.setExpStatus(String.format("%.2f", playerModel.getPlayerExp()));
     }
 
-    /**
-     * Executes the pickaxe command.
-     * @param commands the command and its arguments
-     */
     private void pickaxe(String[] commands) {
         Coordinate coordinate = new Coordinate(commands[1]);
         int errorCode = toolValidity.validatePick(farmModel.getTileState(coordinate), playerModel.getPlayerCoins());
 
-        // Feedback to view for invalid commands
         if(errorCode != 1) {
             switch(errorCode) {
                 case 0:
@@ -500,25 +423,18 @@ public class GameController {
         farmView.setExpStatus(String.format("%.2f", playerModel.getPlayerExp()));
     }
 
-    /**
-     * Executes the 'sleep' command, advances the day.
-     * @param commands the command and its arguments
-     */
     private void advanceDay(String[] commands) {
         ArrayList<Coordinate> activeCrops = farmModel.getActiveGrowingCrops();
         this.day++;
 
         farmView.appendLogsBoxText("Sleeping...\n");
         farmView.setDayStatus(Integer.toString(this.day));
-
-        // Logic for withering plants, loops through all active crops
         for(Coordinate coord : activeCrops) {
             Plant p = farmModel.getTilePlant(coord);
             int waterCount = farmModel.getTileWaterCount(coord);
             int fertCount = farmModel.getTileFertCount(coord);
 
             farmModel.decHarvestDays(coord);
-            // Negative harvest days means the plant is withered
             if(farmModel.getTileHarvestDays(coord) == -1 ) {
                 farmModel.removePlant(coord);
                 farmModel.setState(State.WITHERED, coord);
@@ -526,9 +442,8 @@ public class GameController {
                 farmView.setTileImage(coord.x, coord.y, "withered");
                 farmView.appendLogsBoxText("Your " + p.getName() + " withered...\n");
             }
-            // Zero harvest days means the plant is ready to harvest
+
             else if(farmModel.getTileHarvestDays(coord) == 0) {
-                // Checks if the plant's needs are met
                 if(waterCount < p.getWaterMin() || fertCount < p.getFertMin()) {
                     farmModel.removePlant(coord);
                     farmModel.setState(State.WITHERED, coord);
@@ -536,7 +451,6 @@ public class GameController {
                     farmView.setTileImage(coord.x, coord.y, "withered");
                     farmView.appendLogsBoxText("Your " + p.getName() + " withered...\n");
                 }
-                // If the plant's needs are met, it is ready to harvest
                 else {
                     char c = (char)(coord.y + 97);
                     farmView.appendLogsBoxText(farmModel.getTilePlant(coord).getName() + " on " + (coord.x + 1) + c + " ready to harvest!\n");
@@ -544,8 +458,7 @@ public class GameController {
             }
         }
 
-        // Logic for gameover, checks if there are no active crops
-        activeCrops = farmModel.getActiveGrowingCrops(); // Updates activeCrops
+        activeCrops = farmModel.getActiveGrowingCrops();
         if(activeCrops.size() == 0) {
             if(playerModel.getPlayerCoins() < 5) {
                 farmView.disableChatBox();
@@ -556,10 +469,6 @@ public class GameController {
         }
     }
 
-    /**
-     * Executes the 'inquire' command, provides information of a certain tile.
-     * @param commands the command and its arguments
-     */
     private void inquireTile(String[] commands) {
         Coordinate coordinate = new Coordinate(commands[1]);
         int waterCount = farmModel.getTileWaterCount(coordinate);
@@ -588,10 +497,6 @@ public class GameController {
         farmView.appendLogsBoxText("------------------\n");
     }
 
-    /**
-     * Executes the 'inquire' command, provides information of a certain plant.
-     * @param commands the command and its arguments
-     */
     private void inquirePlant(String[] commands) {
         Plant p = farmModel.getPlantFromList(commands[1]);
         farmView.appendLogsBoxText("+++" + p.getName() + "+++\n");
@@ -605,9 +510,6 @@ public class GameController {
         farmView.appendLogsBoxText("++++++++++++++++++++++++++\n");
     }
 
-    /**
-     * Sets the bonuses in the view based on the farmer type.
-     */
     private void setFarmerTypeBonusLabels() {
         FarmerType type = playerModel.getPlayerFarmerType();
         farmView.setWaterStatus(Integer.toString(type.getWaterBonus()));
@@ -617,10 +519,6 @@ public class GameController {
         farmView.setTypeStatus(playerModel.getPlayerFarmerType().getName());
     }
 
-    /**
-     * Checks if the player can register for the next farmer type.
-     * @return true if the player can register, false otherwise
-     */
     private boolean canRegisterNext() {
         switch(playerModel.getPlayerLevel()) {
             case 5:
@@ -632,10 +530,6 @@ public class GameController {
         return false;
     }
 
-    /**
-     * Prompts the player to register for the next farmer type.
-     * @param leveledUp true if the player leveled up, false otherwise
-     */
     private void promptRegister(boolean leveledUp) {
         if(leveledUp) {
             if(canRegisterNext()) {
@@ -646,9 +540,6 @@ public class GameController {
         }
     }
 
-    /**
-     * Executes the 'register' command, registers the player for the next farmer type.
-     */
     private void register() {
         if(!canRegister) {
             farmView.appendLogsBoxText("There is nothing to register...\n");
@@ -670,9 +561,6 @@ public class GameController {
         this.canRegister = false;
     }
 
-    /**
-     * Executes the 'help' command, displays the help menu.
-     */
     private void displayHelp() {
         farmView.appendLogsBoxText("Tool: Plow, Shovel, Pickaxe, Water, Fertilize\n");
         farmView.appendLogsBoxText("Command: Sleep, Register, Clear\n");

@@ -4,12 +4,12 @@ package gameClasses;
  * The FarmerType class is reponsible to store the farmer type and bonuses of the player.
  */
 public class FarmerType {
-    private final String name; // name of the farmer type
-    private final int waterBonus; // water bonus of the farmer type
-    private final int fertBonus; // fertilizer bonus of the farmer type
-    private final int seedDiscount; // seed discount of the farmer type
-    private final int bonusProduce; // bonus produce of the farmer type
-    private final int price; // price of the farmer type
+    private final String name;
+    private final int waterBonus;
+    private final int fertBonus;
+    private final int seedDiscount;
+    private final int bonusProduce;
+    private final int price;
 
     /**
      * Constructor for FarmerType. Initializes the farmer type.
@@ -19,7 +19,6 @@ public class FarmerType {
      * @param fertBonus         Fertilizer bonus of the farmer type
      * @param seedDiscount      Seed discount of the farmer type
      * @param bonusProduce      Bonus produce of the farmer type
-     * @param price             Price of the farmer type
      */
     public FarmerType(String name, int waterBonus, int fertBonus, int seedDiscount, int bonusProduce, int price) {
         this.name = name;
@@ -75,11 +74,6 @@ public class FarmerType {
         return this.bonusProduce;
     }
 
-    /**
-     * Returns the price of the farmer type
-     * 
-     * @return price of the farmer type
-     */
     public int getPrice() {
         return this.price;
     }

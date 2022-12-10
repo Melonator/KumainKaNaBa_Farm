@@ -4,11 +4,11 @@ package gameClasses;
  * The Tile class is reponsible for storing the plant and tile's information.
  */
 public class Tile {
-    private Plant plant; // plant object assigned to the tile
-    private int harvestDays; // number of days it takes to harvest a crop
-    private int waterCount; // number of times the tile has been watered
-    private int fertCount; // number of times the tile has been fertilized
-    private State state; // state of the tile
+    private Plant plant;
+    private int harvestDays;
+    private int waterCount;
+    private int fertCount;
+    private State state;
 
     /**
      * Constructor for Tile. Initializes the tile.
@@ -78,29 +78,14 @@ public class Tile {
         this.harvestDays = plant.getHarvestTime();
     }
 
-    /**
-     * Sets the number of days it takes to harvest a crop.
-     * 
-     * @param amount The number of days it takes to harvest a crop.
-     */
     public void setHarvestDays(int amount) {
         this.harvestDays = amount;
     }
 
-    /**
-     * Sets the number of times the plant has been watered.
-     * 
-     * @param amount The number of times the plant has been watered.
-     */
     public void setWaterCount(int amount) {
         this.waterCount = amount;
     }
 
-    /**
-     * Sets the number of times the plant has been fertilized.
-     * 
-     * @param amount The number of times the plant has been fertilized.
-     */
     public void setFertCount(int amount) {
         this.fertCount = amount;
     }
@@ -108,7 +93,7 @@ public class Tile {
     /**
      * Sets the state of the tile.
      * 
-     * @param state The state of the tile.
+     * @param state The state to set the tile to.
      */
     public void setState(State state) {
         this.state = state;
