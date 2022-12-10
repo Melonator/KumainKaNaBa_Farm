@@ -8,6 +8,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.text.DefaultCaret;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
 
@@ -631,6 +632,7 @@ public class FarmView {
 
     public void appendLogsBoxText(String text) {
         logsbox.append(text);
+        logsbox.setCaretPosition(logsbox.getDocument().getLength() - 1);
     }
 
     public void clearLogsBox() {
