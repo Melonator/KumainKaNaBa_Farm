@@ -8,14 +8,15 @@
  * 
  */
 
-import java.util.Scanner;
-
 import controllers.GameController;
-import gameClasses.Tile;
 import models.*;
 
 public class Main{
     public static void main(String[] args) {
-       FarmView farmView = new FarmView();
+        FarmModel farmModel = new FarmModel();
+        FarmView farmView = new FarmView();
+        PlayerModel playerModel = new PlayerModel();
+
+        GameController gameController = new GameController(farmModel, farmView, playerModel);
     }
 }
