@@ -450,7 +450,7 @@ public class GameController {
                     farmView.appendLogsBoxText("Your " + p.getName() + " withered...\n");
                 }
                 else
-                    farmView.appendLogsBoxText(farmModel.getTilePlant(coord).getName() + " ready to harvest!");
+                    farmView.appendLogsBoxText(farmModel.getTilePlant(coord).getName() + " ready to harvest!\n");
             }
         }
 
@@ -477,8 +477,8 @@ public class GameController {
 
         if(farmModel.getTileState(coordinate) == State.PLANT) {
             farmView.appendLogsBoxText("Plant: " + p.getName() + "\n");
-            farmView.appendLogsBoxText("Water-Count: " + waterCount + "\n");
-            farmView.appendLogsBoxText("Fert-Count: " + fertCount + "\n");
+            farmView.appendLogsBoxText("Water-Count: " + waterCount + "/" + p.getWaterMin() + "(" + p.getWaterMax() + ")\n");
+            farmView.appendLogsBoxText("Fert-Count: " + fertCount + "/" + p.getFertMin() + "(" + p.getFertMax() + ")\n");
             farmView.appendLogsBoxText("Harvest-Days: " + harvestDays + "\n");
         }
         else if (farmModel.getTileState(coordinate) == State.ROCK)
@@ -561,6 +561,10 @@ public class GameController {
         farmView.appendLogsBoxText("Tool: Plow, Shovel, Pickaxe, Water, Fertilize\n");
         farmView.appendLogsBoxText("Command: Sleep, Register, Clear\n");
         farmView.appendLogsBoxText("Others: Inquire\n");
+        farmView.appendLogsBoxText("\n++++++++++SEEDS+++++++++++\n");
+        farmView.appendLogsBoxText("Turnip, Carrot, Potato, Rose\n");
+        farmView.appendLogsBoxText("Tulips, Sunflower, Mango-Tree, Apple-Tree\n");
+        farmView.appendLogsBoxText("++++++++++++++++++++++++++\n\n");
         farmView.appendLogsBoxText("++++++++++FORMAT++++++++++\n");
         farmView.appendLogsBoxText("Plant <Seed> <Tile>\n");
         farmView.appendLogsBoxText("Harvest <Tile>\n");
