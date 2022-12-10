@@ -2,15 +2,12 @@ package controllers;
 
 import gameClasses.*;
 import models.FarmModel;
-import models.FarmView;
+import views.FarmView;
 import models.PlayerModel;
-import models.ToolValidity;
+import gameClasses.ToolValidity;
 
 import javax.swing.*;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.*;
 
 /**

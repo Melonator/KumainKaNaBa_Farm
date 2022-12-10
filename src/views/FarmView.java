@@ -1,4 +1,4 @@
-package models;
+package views;
 
 import javax.swing.JFrame;
 import javax.swing.JTextArea;

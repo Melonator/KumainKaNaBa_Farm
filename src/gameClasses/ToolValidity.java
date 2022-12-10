@@ -1,4 +1,4 @@
-package models;
+package gameClasses;
 
 import gameClasses.Plant;
 import gameClasses.State;

@@ -10,6 +10,7 @@
 
 import controllers.GameController;
 import models.*;
+import views.FarmView;
 
 /**
  * This is the main class of the game. It is the entry point of the program.
