@@ -202,7 +202,6 @@ public class GameController {
                     farmView.appendLogsBoxText("No space...\n");
                     break;
             }
-
             return;
         }
         farmModel.setPlant(plant, coordinate);
@@ -229,7 +228,6 @@ public class GameController {
                     farmView.appendLogsBoxText("Not ready for harvest yet...\n");
                     break;
             }
-
             return;
         }
 
@@ -272,6 +270,8 @@ public class GameController {
                     farmView.appendLogsBoxText("You can't plow on that...\n");
                     break;
             }
+
+            return;
         }
 
         farmModel.setState(State.PLOWED, coordinate);
