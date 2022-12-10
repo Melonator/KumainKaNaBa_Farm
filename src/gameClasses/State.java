@@ -5,6 +5,10 @@ package gameClasses;
  */
 public enum State
 {
-    ROCK, PLANT, WITHERED, PLOWED, DEFAULT
+    ROCK // tile is a rock
+    ,PLANT // tile is a plant
+    ,WITHERED // tile is a plant that is withered
+    ,PLOWED  // tile is plowed
+    ,DEFAULT // tile is empty
 }
 

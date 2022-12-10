@@ -4,19 +4,34 @@ package gameClasses;
  * The Plant class is responsible for holding the plant's data. All of its attributes are final.
  */
 public class Plant {
-    private final String name;
-    private final String type;
-    private final int harvestTime;
-    private final int waterMin;
-    private final int waterMax;
-    private final int fertMin;
-    private final int fertMax;
-    private final int minProduce;
-    private final int maxProduce;
-    private final int storePrice;
-    private final int retail;
-    private final float expYield;
+    private final String name; // name of the plant
+    private final String type; // type of the plant
+    private final int harvestTime; // harvest time of the plant
+    private final int waterMin; // minimum water needed for the plant
+    private final int waterMax; // maximum water needed for the plant
+    private final int fertMin; // minimum fertilizer needed for the plant
+    private final int fertMax; // maximum fertilizer needed for the plant
+    private final int minProduce; // minimum produce of the plant
+    private final int maxProduce; // maximum produce of the plant
+    private final int storePrice; // store price of the plant
+    private final int retail; // retail price of the plant
+    private final float expYield; // experience yield when harvesting the plant
 
+    /**
+     * Constructor for Plant. Initializes the plant.
+     * @param name          Name of the plant
+     * @param type          Type of the plant
+     * @param harvestTime   Harvest time of the plant
+     * @param waterMin      Minimum water needed for the plant
+     * @param waterMax      Maximum water needed for the plant
+     * @param fertMin       Minimum fertilizer needed for the plant
+     * @param fertMax       Maximum fertilizer needed for the plant
+     * @param minProduce    Minimum produce of the plant
+     * @param maxProduce    Maximum produce of the plant
+     * @param storePrice    Store price of the plant
+     * @param retail        Retail price of the plant
+     * @param expYield      Experience yield when harvesting the plant
+     */
     public Plant(String name, String type, int harvestTime,
             int waterMin, int waterMax, int fertMin, int fertMax, int minProduce,
             int maxProduce, int storePrice, int retail, float expYield)

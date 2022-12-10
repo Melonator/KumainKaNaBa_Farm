@@ -4,19 +4,23 @@
  * 
  * @author Johndayll Lewis D. Arizala
  * @author John Kovie L. Niño
- * @version 1.0-beta
+ * @version 1.0
  * 
  */
 
 import controllers.GameController;
 import models.*;
+import views.FarmView;
 
+/**
+ * This is the main class of the game. It is the entry point of the program.
+ */
 public class Main{
     public static void main(String[] args) {
-        FarmModel farmModel = new FarmModel();
-        FarmView farmView = new FarmView();
-        PlayerModel playerModel = new PlayerModel();
+        FarmModel farmModel = new FarmModel(); // FarmModel is the model of the game
+        FarmView farmView = new FarmView(); // FarmView is the view of the game
+        PlayerModel playerModel = new PlayerModel(); // PlayerModel is the model of the player
 
-        GameController gameController = new GameController(farmModel, farmView, playerModel);
+        GameController gameController = new GameController(farmModel, farmView, playerModel); // GameController is the controller of the game
     }
 }
