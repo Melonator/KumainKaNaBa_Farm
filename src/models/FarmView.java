@@ -65,6 +65,13 @@ public class FarmView {
         this.mainFrame.getContentPane().setBackground(Color.BLACK);
         this.tileImages = new Hashtable();
 
+        // Add Logo Icon
+        ImageIcon logoImport = new ImageIcon(getClass().getResource("/assets/icons/logo-icon.png"));
+        Image logoImage = logoImport.getImage();
+        Image newLogoImage = logoImage.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        logoImport = new ImageIcon(newLogoImage);
+        this.mainFrame.setIconImage(logoImage);
+
         // Left Panel
         leftPanel.setLayout(new BorderLayout());
         leftPanel.setBackground(Color.BLACK);
